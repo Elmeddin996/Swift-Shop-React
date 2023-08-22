@@ -1,0 +1,27 @@
+/* ErrorPage.css */
+
+.error-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(45deg, red, black,red,black);
+  }
+  
+  .error-content {
+    text-align: center;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 80%;
+    width: 600px;
+    font-size: 30px;
+  }
+  
+  @media (max-width: 600px) {
+    .error-content {
+      width: 80%;
+    }
+  }
+  
