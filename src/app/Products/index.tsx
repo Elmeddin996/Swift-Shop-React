@@ -2,6 +2,7 @@ import * as React from "react";
 import { useProductContext } from "../../hooks";
 import { ProductCard } from "../components/ProductCard";
 import { Grid } from "@mui/material";
+import './style.scss'
 
 
 export const ProductList = () => {

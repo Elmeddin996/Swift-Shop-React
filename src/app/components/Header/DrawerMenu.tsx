@@ -5,20 +5,20 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Button,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
 import { ROUTES } from "../../../routes/consts";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import { LoginRegisterBtn } from "../LoginRegisterBtn";
 import { NavLink } from "react-router-dom";
+import { ProfileIcon } from "../ProfileIcon";
+import { LogoutIcon } from "../LogoutIcon";
 
-interface Props{
-isLogined: boolean
+interface Props {
+  isLogined: boolean;
 }
 
-export const DrawerMenu: React.FC<Props> = ({isLogined}) => {
+export const DrawerMenu: React.FC<Props> = ({ isLogined }) => {
   const [openDrawer, setOpenDrawer] = React.useState<boolean>(false);
 
   return (
@@ -31,60 +31,48 @@ export const DrawerMenu: React.FC<Props> = ({isLogined}) => {
         onClose={() => setOpenDrawer(false)}
       >
         {isLogined ? (
-          <Button color="inherit" sx={{ marginLeft: "10px" }}>
-            <AccountBoxIcon fontSize="large" />
-            Profile
-          </Button>
+          <ProfileIcon />
         ) : (
-          <LoginRegisterBtn />
+          <LoginRegisterBtn isLogined={isLogined} />
         )}
 
         <List>
           <NavLink to={ROUTES.HOME} onClick={() => setOpenDrawer(!openDrawer)}>
             <ListItemButton>
               <ListItemIcon>
-                <ListItemText
-                  sx={{ color: "white" }}
-                >
-                  Home
-                </ListItemText>
+                <ListItemText sx={{ color: "white" }}>Home</ListItemText>
               </ListItemIcon>
             </ListItemButton>
           </NavLink>
-          <NavLink to={ROUTES.PRODUCT.LIST} onClick={() => setOpenDrawer(!openDrawer)}>
+          <NavLink
+            to={ROUTES.PRODUCT.LIST}
+            onClick={() => setOpenDrawer(!openDrawer)}
+          >
             <ListItemButton>
               <ListItemIcon>
-                <ListItemText
-                  sx={{ color: "white" }}
-                >
-                  Products
-                </ListItemText>
+                <ListItemText sx={{ color: "white" }}>Products</ListItemText>
               </ListItemIcon>
             </ListItemButton>
           </NavLink>
           <NavLink to={ROUTES.SHOP} onClick={() => setOpenDrawer(!openDrawer)}>
             <ListItemButton>
               <ListItemIcon>
-                <ListItemText
-                  sx={{ color: "white" }}
-                >
-                  Shop
-                </ListItemText>
+                <ListItemText sx={{ color: "white" }}>Shop</ListItemText>
               </ListItemIcon>
             </ListItemButton>
           </NavLink>
-          <NavLink to={ROUTES.CONTACT_US} onClick={() => setOpenDrawer(!openDrawer)}>
+          <NavLink
+            to={ROUTES.CONTACT_US}
+            onClick={() => setOpenDrawer(!openDrawer)}
+          >
             <ListItemButton>
               <ListItemIcon>
-                <ListItemText
-                  sx={{ color: "white" }}
-                >
-                  Contact
-                </ListItemText>
+                <ListItemText sx={{ color: "white" }}>Contact</ListItemText>
               </ListItemIcon>
             </ListItemButton>
           </NavLink>
         </List>
+        {isLogined && <LogoutIcon />}
       </Drawer>
       <IconButton
         sx={{ marginLeft: "auto", color: "white" }}

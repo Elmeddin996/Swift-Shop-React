@@ -10,7 +10,7 @@ import './style.scss'
 export const ProductDetail = () => {
     const location = useLocation();
   const data = location.state;
-console.log(data);
+
   return (
     <div className="product-detail-container">
     <Paper elevation={3} className="detail-paper">
