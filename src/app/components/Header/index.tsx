@@ -28,7 +28,6 @@ import { login, logout } from "../../../features/userLogined/loginSlice";
 
 export const Header: React.FC = () => {
   const [tabValue, setTabValue] = React.useState<Number>(0);
-  // const [isLogined, setIsLogined] = React.useState<boolean>(false);
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
   const navigate = useNavigate();
@@ -37,9 +36,8 @@ export const Header: React.FC = () => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.isLogined.isAuthenticated
   );
-  // const [login, forceUpdate] = React.useReducer(x => x + 1, 0);
-  // forceUpdate()
-console.log(isAuthenticated);
+
+
   React.useEffect(()=>{
   const token = localStorage.getItem("token")
   if (!token) {

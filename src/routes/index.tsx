@@ -10,6 +10,8 @@ import { Login } from "../app/Login";
 import { Register } from "../app/Register";
 import { AuthProvider } from "../context/AuthContext";
 import { UserDetail } from "../app/UserDetail";
+import { ProtectedRouterLoginRegister } from "../ProtectedRouters/ProtectedLoginRegister";
+import { ProtectedRouterProfil } from "../ProtectedRouters/ProtectedProfilPage";
 
 const ProductList = React.lazy(() =>
   import("../app/Products").then(({ ProductList }) => ({
@@ -24,9 +26,11 @@ export const AppRoutes: React.FC = () => {
         <Route
           path={ROUTES.USER.LOGIN}
           element={
-            <AuthProvider>
-              <Login />
-            </AuthProvider>
+            <ProtectedRouterLoginRegister>
+              <AuthProvider>
+                <Login />
+              </AuthProvider>
+            </ProtectedRouterLoginRegister>
           }
         />
         <Route
@@ -45,9 +49,22 @@ export const AppRoutes: React.FC = () => {
             </ProductProvider>
           }
         />
-        <Route path={ROUTES.USER.REGISTER} element={<Register />} />  
-        
-        <Route path={ROUTES.USER.DETAIL} element={<UserDetail />} />
+        <Route
+          path={ROUTES.USER.REGISTER}
+          element={
+            <ProtectedRouterLoginRegister>
+              <Register />
+            </ProtectedRouterLoginRegister>
+          }
+        />
+        <Route
+          path={ROUTES.USER.DETAIL}
+          element={
+            <ProtectedRouterProfil>
+              <UserDetail />
+            </ProtectedRouterProfil>
+          }
+        />
 
         <Route path={ROUTES.PRODUCT.DETAIL} element={<ProductDetail />} />
 

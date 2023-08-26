@@ -15,10 +15,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/consts";
 import { useAuthentication } from "../../hooks";
 import { ILogin } from "../../models";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "../../features/userLogined/loginSlice";
-
-
 
 const defaultTheme = createTheme();
 
@@ -26,7 +24,6 @@ export const Login: React.FC = () => {
   const { mutateLoginApp } = useAuthentication();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
 
   const [loginInput, setLoginInput] = React.useState<ILogin>({
     email: "",
@@ -96,8 +93,8 @@ export const Login: React.FC = () => {
               sx={{ mt: 1 }}
             >
               <TextField
-                margin="normal"
                 required
+                margin="normal"
                 fullWidth
                 id="email"
                 label="Email Address"
@@ -107,8 +104,8 @@ export const Login: React.FC = () => {
                 onChange={handleLoginInput}
               />
               <TextField
-                margin="normal"
                 required
+                margin="normal"
                 fullWidth
                 name="password"
                 label="Password"
