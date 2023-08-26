@@ -8,8 +8,7 @@ import {
   Toolbar,
   Typography,
   useTheme,
-  useMediaQuery,
-  Button
+  useMediaQuery
 } from "@mui/material";
 import { DrawerMenu } from "./DrawerMenu";
 import { useNavigate } from "react-router-dom";
@@ -20,16 +19,36 @@ import { useService } from "../../../APIs/Services";
 import { useQuery } from "react-query";
 import { EQueryKeys } from "../../../enums";
 import Font, { Text } from "react-font";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import { ProfileIcon } from "../ProfileIcon";
+import { LogoutIcon } from "../LogoutIcon";
+import { RootState } from "../../../store";
+import { useDispatch, useSelector} from "react-redux";
+import { login, logout } from "../../../features/userLogined/loginSlice";
 
 
 export const Header: React.FC = () => {
   const [tabValue, setTabValue] = React.useState<Number>(0);
-  const [isLogined, setIsLogined] = React.useState<boolean>(false);
+  // const [isLogined, setIsLogined] = React.useState<boolean>(false);
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
   const navigate = useNavigate();
   const { siteDatasService } = useService();
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.isLogined.isAuthenticated
+  );
+  // const [login, forceUpdate] = React.useReducer(x => x + 1, 0);
+  // forceUpdate()
+console.log(isAuthenticated);
+  React.useEffect(()=>{
+  const token = localStorage.getItem("token")
+  if (!token) {
+    dispatch(logout())
+  }else{
+    dispatch(login())
+  }
+   
+  },[dispatch])
 
   const handleChangePage = (value: any) => {
     setTabValue(value);
@@ -52,11 +71,13 @@ export const Header: React.FC = () => {
     }
   };
 
-  const { data: siteDatas } = useQuery([EQueryKeys.GET_SITE_DATAS], () =>
+  const { data: siteDatas} = useQuery([EQueryKeys.GET_SITE_DATAS], () =>
     siteDatasService.getSiteDatas()
+
   );
   return (
     <AppBar
+    className="navbar"
       sx={{
         backgroundImage:
           "linear-gradient(90deg, rgba(0,0,0,0.9976365546218487) 0%, rgba(100,77,0,1) 42%, rgba(252,194,1,1) 100%)",
@@ -89,7 +110,7 @@ export const Header: React.FC = () => {
             <Grid item sm={2} xs={2}>
               <ShoppingCartCheckoutIcon />
             </Grid>
-            <DrawerMenu isLogined={isLogined} />
+            <DrawerMenu isLogined={isAuthenticated} />
           </Grid>
         ) : (
           <Grid container sx={{ placeItems: "center" }}>
@@ -133,13 +154,11 @@ export const Header: React.FC = () => {
               </Typography>
             </Grid>
 
-            {isLogined ? (
-          <Button color="inherit" sx={{ marginLeft: "10px" }}>
-            <AccountBoxIcon fontSize="large" />
-            Profile
-          </Button>
+            {isAuthenticated ? (
+          <><ProfileIcon/>
+          <LogoutIcon/></>
         ) : (
-          <LoginRegisterBtn />
+          <LoginRegisterBtn isLogined={isAuthenticated} />
         )}
 
           </Grid>

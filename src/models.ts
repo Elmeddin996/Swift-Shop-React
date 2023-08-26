@@ -11,3 +11,9 @@ export interface IProduct{
     thumbnail: String,
     images?: [String]
 }
+
+
+export interface ILogin{
+    email:string;
+    password:string;
+}

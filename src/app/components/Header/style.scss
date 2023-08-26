@@ -1,18 +1,23 @@
+.navbar{
 
-.logo-container {
-  display: flex;
-  text-align: center;
-  align-items: center;
-   width: 100%;
-   cursor: pointer;
+  position: fixed;
+  top: 0;
 
-.img-lg-logo {
-  max-width: 30%;
-  height: auto;
-}
-
-.img-sm-logo {
-    max-width: 15%;
-    height: auto;
+  .logo-container {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+    
+    .img-lg-logo {
+      max-width: 30%;
+      height: auto;
+    }
+    
+    .img-sm-logo {
+      max-width: 15%;
+      height: auto;
+    }
   }
 }
