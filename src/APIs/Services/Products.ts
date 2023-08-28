@@ -8,4 +8,8 @@ export class ProductService extends HttpClient {
   async getProductList(){
     return await this.get('products')
   }
+
+  async getProductById(id:string){
+    return await this.getById('product',id)
+  }
 }
