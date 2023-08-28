@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Home } from "../app/Home";
 import { ProductProvider } from "../context/ProductContext";
-import { ProductDetail } from "../app/Detail";
+import { ProductDetail } from "../app/ProductDetail";
 import { ROUTES } from "./consts";
 import ErrorPage from "../app/ErrorPage";
 import { Loading } from "../app/components/Loading";

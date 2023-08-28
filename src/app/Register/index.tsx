@@ -38,7 +38,7 @@ export const Register: React.FC = () => {
   });
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" sx={{bgcolor:"#c5d5cb"}}>
       <Typography variant="h4" align="center" gutterBottom>
         Register
       </Typography>

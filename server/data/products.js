@@ -2,7 +2,7 @@ const DProductList = [
   {
     id: 1,
     title: "iPhone 9",
-    description: "An apple mobile which is nothing like apple",
+    description: "An apple mobile which is nothing like apple fkhg kjh;u ljhhlj",
     price: 549,
     discountPercentage: 12.96,
     rating: 4.69,
@@ -59,7 +59,7 @@ const DProductList = [
     discountPercentage: 17.91,
     rating: 4.3,
     stock: 123,
-    brand: "OPPO",
+    brand: "Apple",
     category: "smartphones",
     thumbnail: "https://i.dummyjson.com/data/products/4/thumbnail.jpg",
     images: [
@@ -79,7 +79,7 @@ const DProductList = [
     discountPercentage: 10.58,
     rating: 4.09,
     stock: 32,
-    brand: "Huawei",
+    brand: "Apple",
     category: "smartphones",
     thumbnail: "https://i.dummyjson.com/data/products/5/thumbnail.jpg",
     images: [
@@ -135,7 +135,7 @@ const DProductList = [
     discountPercentage: 10.23,
     rating: 4.43,
     stock: 68,
-    brand: "Microsoft Surface",
+    brand: "Apple",
     category: "laptops",
     thumbnail: "https://i.dummyjson.com/data/products/8/thumbnail.jpg",
     images: [
@@ -155,7 +155,7 @@ const DProductList = [
     discountPercentage: 11.83,
     rating: 4.54,
     stock: 96,
-    brand: "Infinix",
+    brand: "Samsung",
     category: "laptops",
     thumbnail: "https://i.dummyjson.com/data/products/9/thumbnail.jpg",
     images: [
@@ -194,7 +194,7 @@ const DProductList = [
     discountPercentage: 8.4,
     rating: 4.26,
     stock: 65,
-    brand: "Impression of Acqua Di Gio",
+    brand: "Samsung",
     category: "fragrances",
     thumbnail: "https://i.dummyjson.com/data/products/11/thumbnail.jpg",
     images: [
@@ -232,7 +232,7 @@ const DProductList = [
     discountPercentage: 8.14,
     rating: 4.59,
     stock: 61,
-    brand: "Fog Scent Xpressio",
+    brand: "Samsung",
     category: "fragrances",
     thumbnail: "https://i.dummyjson.com/data/products/13/thumbnail.webp",
     images: [
@@ -252,7 +252,7 @@ const DProductList = [
     discountPercentage: 15.6,
     rating: 4.21,
     stock: 114,
-    brand: "Al Munakh",
+    brand: "Samsung",
     category: "fragrances",
     thumbnail: "https://i.dummyjson.com/data/products/14/thumbnail.jpg",
     images: [

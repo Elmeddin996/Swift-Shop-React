@@ -15,7 +15,7 @@ export const ProductCard = ({data}:any) => {
   const navigate = useNavigate();
 
   const goToDetail =(e:any)=>{
-    navigate(ROUTES.PRODUCT.DETAIL, {state: data});
+    navigate(ROUTES.PRODUCT.DETAIL, {state: data.id});
   }
 
   return (

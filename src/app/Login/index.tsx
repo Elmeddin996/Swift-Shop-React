@@ -17,38 +17,58 @@ import { useAuthentication } from "../../hooks";
 import { ILogin } from "../../models";
 import { useDispatch } from "react-redux";
 import { login } from "../../features/userLogined/loginSlice";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { Alert } from "@mui/material";
 
 const defaultTheme = createTheme();
 
+const validationSchema = yup.object({
+  email: yup
+    .string()
+    .email("Enter a valid email!!!")
+    .required("Email is required!!!"),
+  password: yup
+    .string()
+    .min(6, "Password must be at least 6 characters!!!")
+    .required("Password is required!!!"),
+});
+
 export const Login: React.FC = () => {
-  const { mutateLoginApp } = useAuthentication();
+  const { mutateLoginApp, result } = useAuthentication();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const [loginInput, setLoginInput] = React.useState<ILogin>({
     email: "",
     password: "",
   });
 
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: () => {
+      mutateLoginApp(loginInput)
+        .then(() => {
+          dispatch(login());
+          navigate(ROUTES.HOME, {state:result});
+        })
+        .catch(() => console.log("xeta bash verdi"));
+    },
+  });
+
+
   const handleLoginInput = React.useCallback(
-    ({ target: { name, value } }: React.ChangeEvent<HTMLInputElement>) => {
+    ({ target: { name, value } }: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setLoginInput((prev) => ({ ...prev, [name]: value }));
     },
     []
   );
 
-  const handleLoginSubmit = React.useCallback(
-    (e: any) => {
-      e.preventDefault();
-      mutateLoginApp(loginInput)
-        .then(() => {
-          dispatch(login());
-          navigate(ROUTES.HOME);
-        })
-        .catch(() => console.log("xeta bash verdi"));
-    },
-    [loginInput, mutateLoginApp, navigate, dispatch]
-  );
+
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -89,11 +109,10 @@ export const Login: React.FC = () => {
             <Box
               component="form"
               noValidate
-              onSubmit={handleLoginSubmit}
+              onSubmit={formik.handleSubmit}
               sx={{ mt: 1 }}
             >
               <TextField
-                required
                 margin="normal"
                 fullWidth
                 id="email"
@@ -101,10 +120,17 @@ export const Login: React.FC = () => {
                 name="email"
                 autoComplete="email"
                 autoFocus
-                onChange={handleLoginInput}
+                onChange={(e)=>{
+                  formik.handleChange(e)
+                   handleLoginInput(e)
+                }}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched.email && Boolean(formik.errors.email)
+                }
+                helperText={formik.touched.email && formik.errors.email}
               />
               <TextField
-                required
                 margin="normal"
                 fullWidth
                 name="password"
@@ -112,12 +138,25 @@ export const Login: React.FC = () => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                onChange={handleLoginInput}
+                onChange={(e)=>{
+                  formik.handleChange(e)
+                   handleLoginInput(e)
+                }}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
+                helperText={formik.touched.password && formik.errors.password
+                }
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
+                {
+                  result&&
+                  <Alert severity="error">Email or Password is incorrect</Alert>
+                }
               <Button
                 type="submit"
                 fullWidth
