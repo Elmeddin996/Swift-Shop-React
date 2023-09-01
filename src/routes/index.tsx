@@ -13,9 +13,9 @@ import { UserDetail } from "../app/UserDetail";
 import { ProtectedRouterLoginRegister } from "../ProtectedRouters/ProtectedLoginRegister";
 import { ProtectedRouterProfil } from "../ProtectedRouters/ProtectedProfilPage";
 
-const ProductList = React.lazy(() =>
-  import("../app/Products").then(({ ProductList }) => ({
-    default: ProductList,
+const ProductPage = React.lazy(() =>
+  import("../app/Products").then(({ ProductPage }) => ({
+    default: ProductPage,
   }))
 );
 
@@ -45,7 +45,7 @@ export const AppRoutes: React.FC = () => {
           path={ROUTES.PRODUCT.LIST}
           element={
             <ProductProvider>
-              <ProductList />
+              <ProductPage />
             </ProductProvider>
           }
         />
@@ -66,7 +66,7 @@ export const AppRoutes: React.FC = () => {
           }
         />
 
-        <Route path={ROUTES.PRODUCT.DETAIL} element={<ProductDetail />} />
+        <Route path={`${ROUTES.PRODUCT.DETAIL}/:id`} element={<ProductDetail />} />
 
         <Route path="*" element={<ErrorPage />} />
       </Routes>

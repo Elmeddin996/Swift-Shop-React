@@ -5,19 +5,19 @@ import {
     Button,
     Divider,
   } from '@mui/material';
-import { useLocation } from 'react-router-dom';
+import {useParams } from 'react-router-dom';
 import './style.scss'
 import { useQuery } from 'react-query';
 import { EQueryKeys } from '../../enums';
 import { useService } from '../../APIs/Services';
 
-export const ProductDetail = () => {
-    const location = useLocation();
-  const id = location.state;
+
+export const ProductDetail:React.FC = () => {
+  const  {id}  = useParams()
   const { productService } = useService();
 
   const { data: product } = useQuery([EQueryKeys.GET_PRODUCT_BY_ID], () =>
-  productService.getProductById(id)
+  id ? productService.getProductById(id):null
   );
 
   return (

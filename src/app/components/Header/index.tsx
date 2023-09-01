@@ -8,10 +8,10 @@ import {
   Toolbar,
   Typography,
   useTheme,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import { DrawerMenu } from "./DrawerMenu";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../routes/consts";
 import { LoginRegisterBtn } from "../LoginRegisterBtn";
 import "./style.scss";
@@ -22,9 +22,8 @@ import Font, { Text } from "react-font";
 import { ProfileIcon } from "../ProfileIcon";
 import { LogoutIcon } from "../LogoutIcon";
 import { RootState } from "../../../store";
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login, logout } from "../../../features/userLogined/loginSlice";
-
 
 export const Header: React.FC = () => {
   const [tabValue, setTabValue] = React.useState<Number>(0);
@@ -33,23 +32,50 @@ export const Header: React.FC = () => {
   const navigate = useNavigate();
   const { siteDatasService } = useService();
   const dispatch = useDispatch();
+  const location = useLocation();
   const isAuthenticated = useSelector(
     (state: RootState) => state.isLogined.isAuthenticated
   );
 
+  React.useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      dispatch(logout());
+    } else {
+      dispatch(login());
+    }
+  }, [dispatch]);
 
-  React.useEffect(()=>{
-  const token = localStorage.getItem("token")
-  if (!token) {
-    dispatch(logout())
-  }else{
-    dispatch(login())
-  }
-   
-  },[dispatch])
+  React.useEffect(() => {
+    const savedTabValue = localStorage.getItem("tabValue");
+    if (savedTabValue !== null) {
+      setTabValue(Number(savedTabValue));
+    }
+  }, []);
 
-  const handleChangePage = (value: any) => {
+  React.useEffect(() => {
+    switch (location.pathname) {
+      case "/":
+        setTabValue(0);
+        break;
+      case "/products":
+        setTabValue(1);
+        break;
+      case "/shop":
+        setTabValue(2);
+        break;
+      case "/contact":
+        setTabValue(3);
+        break;
+      default:
+        setTabValue(4);
+        break;
+    }
+  }, [location.pathname]);
+
+  const handleChangePage = (value: number) => {
     setTabValue(value);
+    localStorage.setItem("tabValue", String(value));
     switch (value) {
       case 0:
         navigate(ROUTES.HOME);
@@ -69,13 +95,12 @@ export const Header: React.FC = () => {
     }
   };
 
-  const { data: siteDatas} = useQuery([EQueryKeys.GET_SITE_DATAS], () =>
+  const { data: siteDatas } = useQuery([EQueryKeys.GET_SITE_DATAS], () =>
     siteDatasService.getSiteDatas()
-
   );
   return (
     <AppBar
-    className="navbar"
+      className="navbar"
       sx={{
         backgroundImage:
           "linear-gradient(90deg, rgba(0,0,0,0.9976365546218487) 0%, rgba(100,77,0,1) 42%, rgba(252,194,1,1) 100%)",
@@ -86,8 +111,8 @@ export const Header: React.FC = () => {
           <Grid container>
             <Grid
               item
-              sm={9}
-              xs={7}
+              sm={6}
+              xs={6}
               className="logo-container"
               onClick={() => {
                 navigate(ROUTES.HOME);
@@ -97,7 +122,7 @@ export const Header: React.FC = () => {
               <img
                 className="img-sm-logo"
                 src={siteDatas?.data.logoImgUrl}
-                alt=""
+                alt="logo"
               />
               <Font family="Cormorant">
                 <Text family="Cormorant" style={{ fontSize: 25 }}>
@@ -105,7 +130,7 @@ export const Header: React.FC = () => {
                 </Text>
               </Font>
             </Grid>
-            <Grid item sm={2} xs={2}>
+            <Grid item sm={3} xs={3}>
               <ShoppingCartCheckoutIcon />
             </Grid>
             <DrawerMenu isLogined={isAuthenticated} />
@@ -134,7 +159,7 @@ export const Header: React.FC = () => {
             </Grid>
             <Grid item xs={5.5}>
               <Tabs
-                indicatorColor="secondary"
+                className={tabValue===4?"custom-tabs-none-indicator":"custom-tabs"}
                 textColor="inherit"
                 value={tabValue}
                 onChange={(e, value) => handleChangePage(value)}
@@ -143,7 +168,8 @@ export const Header: React.FC = () => {
                 <Tab label="Products" />
                 <Tab label="Shop" />
                 <Tab label="Contact" />
-              </Tabs>
+                <Tab disabled className="disabled-tab"/>
+              </Tabs> 
             </Grid>
 
             <Grid item xs={0.5}>
@@ -153,12 +179,17 @@ export const Header: React.FC = () => {
             </Grid>
 
             {isAuthenticated ? (
-          <><ProfileIcon/>
-          <LogoutIcon/></>
-        ) : (
-          <LoginRegisterBtn isLogined={isAuthenticated} />
-        )}
-
+              <>
+              <Grid item xs={1.5}>
+              <ProfileIcon />
+              </Grid>
+              <Grid item xs={1.5}>
+                <LogoutIcon />
+              </Grid>
+              </>
+            ) : (
+              <LoginRegisterBtn isLogined={isAuthenticated} />
+            )}
           </Grid>
         )}
       </Toolbar>
