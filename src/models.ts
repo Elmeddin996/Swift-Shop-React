@@ -1,16 +1,34 @@
 export interface IProduct{
-    id: Number,
+    id: string,
     title: String,
     description: String,
-    price: Number,
-    discountPercentage?: Number,
+    price: number,
+    discountPercentage: number,
     rating?: Number,
     stock?: Number,
     brand: String,
     category: String,
-    thumbnail: String,
-    images?: [String]
+    thumbnail: string,
+    images?: [string]
 }
+
+export interface ICategory{
+    id:string,
+    name:string,
+    brands:IBrand[]
+}
+
+export interface IBrand{
+    id:string,
+    name:string
+}
+
+export interface IBrandCategoryProps {
+    productList: IProduct[];
+    setFilteredProducts:React.Dispatch<React.SetStateAction<IProduct[]>>;
+    setSelectedFilterValue: React.Dispatch<React.SetStateAction<string>>;
+    selectedFilterValue: string;
+  }
 
 
 export interface ILogin{

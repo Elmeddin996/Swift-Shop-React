@@ -8,11 +8,13 @@ import Typography from "@mui/material/Typography";
 interface IMultiCarouselProps {
   products: IProduct[];
   color: string;
+  discounted?:boolean
 }
 
 export const MultiCarousel: React.FC<IMultiCarouselProps> = ({
   products,
   color,
+  discounted
 }) => {
 
   const responsive = {
@@ -46,7 +48,7 @@ export const MultiCarousel: React.FC<IMultiCarouselProps> = ({
               borderRadius:"40%"
             }}
           >
-            {products[0].brand} Products
+            {discounted? "Discounted": products[0].brand} Products
           </Typography>
           <Carousel
             swipeable={true}

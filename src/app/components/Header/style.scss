@@ -20,4 +20,13 @@
       height: auto;
     }
   }
+  .custom-tabs .MuiTabs-indicator {
+    background: linear-gradient(#000, #FFD700);
+  }
+  .custom-tabs-none-indicator .MuiTabs-indicator {
+    background: none;
+  }
+  .disabled-tab{
+    visibility: hidden;
+  }
 }

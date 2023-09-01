@@ -1,8 +1,27 @@
-.product-list {
-    display: flex;
-    margin:50px 0 0 10px;
+.product-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 12rem;
+  margin-top: 2rem;
+  z-index: -2;
 
-    justify-content: space-around;
-    flex-wrap: wrap;
-    width: 100%;
-}  
+  @media (max-width: 900px) {
+  margin-left: 10rem;
+  }
+
+  @media (max-width: 700px) {
+    margin-left: 9rem;
+  }
+
+  @media (max-width: 550px) {
+    margin-left: 8rem;
+  }
+}
+
+.search-filter-container{
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 20rem;
+  margin-top: 8rem;
+  z-index: -2;
+}

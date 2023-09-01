@@ -1,20 +1,23 @@
 import * as React from "react";
 import { useProductContext } from "../../hooks";
-import { ProductCard } from "../components/ProductCard";
-import { Grid } from "@mui/material";
-import './style.scss'
+import { ProductList } from "../components/ProductList";
+import "./style.scss";
+import { SideBar } from "../components/SideBar";
+import { PriceFilterRange } from "../components/PriceFilterRange";
 
-
-export const ProductList = () => {
-  const { productList } = useProductContext();
+export const ProductPage = () => {
+  const { filteredProducts, setFilteredProducts, productList} = useProductContext();
 
   return (
-    <Grid container spacing={6} className="product-list">
-      {productList?.data.map((data: any) => {
-        return (
-         <ProductCard key={data.id} data={data}/>
-        );
-      })}
-    </Grid>
+    <div>
+      <SideBar />
+      <div className="search-filter-container">
+      <PriceFilterRange productList={productList?.data} setProducts={setFilteredProducts}/>
+      </div>
+      <div className="product-container">
+        <ProductList products={filteredProducts} />
+      </div>
+    </div> 
+
   );
 };

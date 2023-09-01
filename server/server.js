@@ -8,6 +8,7 @@ const { DUserData } = require("./data/users");
 const jwt = require("jsonwebtoken");
 const { ESecretkey } = require("./secretKey");
 const { DCategoryList } = require("./data/categories");
+const { DBrandList } = require("./data/brands");
 
 const PORT = process.env.PORT | 3001;
 
@@ -40,8 +41,9 @@ app.get("/products", (_, res) => {
 
 app.get("/product/:id", (req, res) => {
   const product = DProductList.find(
-    (prod) => prod.id === parseInt(req.params.id)
+    (prod) => prod.id === req.params.id
   );
+  console.log(product);
   if (product) res.send(product);
   else res.status(404).send("Product not found");
 });
@@ -52,6 +54,10 @@ app.get("/sitedatas", (_, res) => {
 
 app.get("/categories", (_, res) => {
   res.json(DCategoryList);
+});
+
+app.get("/brands", (_, res) => {
+  res.json(DBrandList);
 });
 
 app.listen(PORT, () => {
