@@ -3,15 +3,15 @@ import {Grid } from "@mui/material";
 import { ProductCard } from '../ProductCard';
 import { IProduct } from '../../../models';
 import "./style.scss";
+import { useProductContext } from '../../../hooks';
 
-interface IProductList{
-    products:IProduct[]
-}
 
-export const ProductList:React.FC<IProductList> = ({products}) => {
+export const ProductList:React.FC = () => {
+  const { filteredProducts} = useProductContext();
+
   return (
     <Grid container spacing={6} className="product-list">
-    {products?.map((data: IProduct) => {
+    {filteredProducts?.map((data: IProduct) => {
       return <ProductCard key={data.id} data={data} />;
     })}
   </Grid>

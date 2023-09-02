@@ -1,7 +1,20 @@
 .range-slider {
-  height: 1px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 50px;
+  background-color: rgba(255, 255, 255, 0.5);
 
-  input {
-    accent-color: #058d66;
+  .price-filter-input {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.2);
+    @media (max-width: 550px) {
+      display: none;
+    }
+  }
+  @media (max-width: 550px) {
+    
+    width: 100%;
   }
 }

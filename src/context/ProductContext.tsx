@@ -14,9 +14,9 @@ export const ProductProvider: React.FC<any> = ({ children }: any) => {
   );
 
   const [filteredProducts, setFilteredProducts]=React.useState<IProduct[]>(productList?.data)
- 
+  const [selectedFilterValue, setSelectedFilterValue] = React.useState<string>("");
   return (
-    <ProductContext.Provider value={{ productList, filteredProducts,  setFilteredProducts}}>
+    <ProductContext.Provider value={{ productList, filteredProducts,  setFilteredProducts, selectedFilterValue, setSelectedFilterValue}}>
       {children}
     </ProductContext.Provider>
   );

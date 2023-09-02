@@ -4,14 +4,11 @@ import { useProductContext } from "../../../hooks";
 import "./style.scss";
 import { ChooseBtn } from "./ChooseBtn";
 import { Button } from "@mui/material";
-
 import { Brand } from "./Brand";
 
 export const SideBar: React.FC = () => {
-  const [selectedFilterValue, setSelectedFilterValue] =
-    React.useState<string>("");
 
-  const { productList, setFilteredProducts } = useProductContext();
+  const { productList, setFilteredProducts, selectedFilterValue, setSelectedFilterValue } = useProductContext();
   const [selectedBtnValue, setSelectedBtnValue] =
     React.useState<string>("Category");
 

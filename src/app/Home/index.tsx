@@ -5,7 +5,6 @@ import { useProductContext } from "../../hooks";
 import { IProduct } from "../../models";
 import './style.scss'
 
-
 export const Home: React.FC = () => {
   const { productList } = useProductContext();
   

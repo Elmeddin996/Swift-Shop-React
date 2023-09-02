@@ -1,107 +1,99 @@
 import React from "react";
-import { Typography } from "@mui/material";
+import { Input, Typography } from "@mui/material";
 import { IProduct } from "../../../models";
 import "./style.scss";
+import Box from "@mui/material/Box";
+import Slider from "@mui/material/Slider";
+import { useProductContext } from "../../../hooks";
 
-interface IPriceFilter {
-  productList: IProduct[];
-  setProducts: React.Dispatch<React.SetStateAction<IProduct[]>>;
-}
+export const PriceFilterRange: React.FC = () => {
+  const {
+    productList,
+    setFilteredProducts,
+    selectedFilterValue,
+    setSelectedFilterValue,
+  } = useProductContext();
 
-interface State {
-  minProductPrice: number;
-  maxProductPrice: number;
-  minInputValue: number;
-  maxInputValue: number;
-}
+  const [minProductPrice, setMinProductPrice] = React.useState<number>(0);
+  const [maxProductPrice, setMaxProductPrice] = React.useState<number>(100000);
 
-type Action =
-  | { type: "SET_MIN_PRODUCT_PRICE"; payload: number }
-  | { type: "SET_MAX_PRODUCT_PRICE"; payload: number }
-  | { type: "SET_MIN_INPUT_VALUE"; payload: number }
-  | { type: "SET_MAX_INPUT_VALUE"; payload: number };
-
-const initialState: State = {
-  minProductPrice: 1,
-  maxProductPrice: 100000,
-  minInputValue: 1,
-  maxInputValue: 100000,
-};
-
-const reducer = (state: State, action: Action) => {
-  switch (action.type) {
-    case "SET_MIN_PRODUCT_PRICE":
-      return { ...state, minProductPrice: action.payload };
-    case "SET_MAX_PRODUCT_PRICE":
-      return { ...state, maxProductPrice: action.payload };
-    case "SET_MIN_INPUT_VALUE":
-      return { ...state, minInputValue: action.payload };
-    case "SET_MAX_INPUT_VALUE":
-      return { ...state, maxInputValue: action.payload };
-    default:
-      return state;
-  }
-};
-
-export const PriceFilterRange: React.FC<IPriceFilter> = ({
-  productList,
-  setProducts,
-}) => {
-  const [state, dispatch] = React.useReducer(reducer, initialState);
+  const [rangeValue, setRangeValue] = React.useState<number[]>([
+    minProductPrice,
+    maxProductPrice,
+  ]);
 
   React.useEffect(() => {
-    const prices = productList?.map((product) => product.price);
+    if (selectedFilterValue === "") {
+      setRangeValue([minProductPrice, maxProductPrice]);
+    }
+  }, [selectedFilterValue, minProductPrice, maxProductPrice]);
+
+  React.useEffect(() => {
+    const prices = productList?.data.map((product: IProduct) => product.price);
     if (prices?.length > 0) {
-      dispatch({ type: "SET_MIN_PRODUCT_PRICE", payload: Math.min(...prices) });
-      dispatch({ type: "SET_MAX_PRODUCT_PRICE", payload: Math.max(...prices) });
+      setMinProductPrice(Math.min(...prices));
+      setMaxProductPrice(Math.max(...prices));
     }
   }, [productList]);
 
-  const handleRangeInput = () => {
-    const filteredProducts = productList.filter(
-      (product) =>
-        product.price >= state.minInputValue &&
-        product.price <= state.maxInputValue
+  const handleRangeChange = (e: Event, newValue: number | number[]) => {
+    setRangeValue(newValue as number[]);
+    const filteredProducts = productList?.data.filter(
+      (product: IProduct) =>
+        product.price >= rangeValue[0] && product.price <= rangeValue[1]
     );
-    setProducts(filteredProducts);
+    setFilteredProducts(filteredProducts);
+    setSelectedFilterValue("Range");
+  };
+
+  const handleInputChange = (value: number, minOrMax: boolean) => {
+    if (minOrMax && value !== 0) {
+      const newArray = [...rangeValue];
+      newArray[0] = value;
+      setRangeValue(newArray);
+    } else {
+      const newArray = [...rangeValue];
+      newArray[1] = value;
+      setRangeValue(newArray);
+    }
+    setSelectedFilterValue("Input");
   };
 
   return (
-    <>
-      <Typography className="side-bar-label">Price</Typography>
-
-      <div className="range-slider">
-       <input type="number" defaultValue={state.minProductPrice} onChange={(e) => {
-            const numericValue = parseFloat(e.target.value);
-            dispatch({ type: "SET_MIN_INPUT_VALUE", payload: numericValue })
-            handleRangeInput();
-            }}/>
-        <input
-          type="range"
+    <div className="range-slider">
+      <Typography className="side-bar-label">Filter By Price</Typography>
+      <Box sx={{ width: "90%", display: "flex" }}>
+        <Input
+          type="number"
+          sx={{borderTopLeftRadius:50,paddingLeft:2}}
+          className="price-filter-input"
+          value={rangeValue[0]}
           onChange={(e) => {
             const numericValue = parseFloat(e.target.value);
-            dispatch({ type: "SET_MIN_INPUT_VALUE", payload: numericValue });
-            handleRangeInput();
+            handleInputChange(numericValue, true);
           }}
-          min={state.minProductPrice}
-          max={state.maxProductPrice}
         />
-        <input type="number"  defaultValue={state.maxProductPrice} onChange={(e) => {
-            const numericValue = parseFloat(e.target.value);
-            dispatch({ type: "SET_MIN_INPUT_VALUE", payload: numericValue });
-            handleRangeInput();
-          }}/>
-        <input
-          type="range"
+        <Slider
+          getAriaLabel={() => "Price range"}
+          value={rangeValue}
+          onChange={handleRangeChange}
+          valueLabelDisplay="auto"
+          sx={{ color: "white", marginRight: 5, marginLeft: 5 }}
+          step={10}
+          min={minProductPrice}
+          max={maxProductPrice}
+        />
+        <Input
+          type="number"
+          sx={{borderTopRightRadius:50,paddingLeft:2}}
+          className="price-filter-input"
+          value={rangeValue[1]}
           onChange={(e) => {
             const numericValue = parseFloat(e.target.value);
-            dispatch({ type: "SET_MAX_INPUT_VALUE", payload: numericValue });
-            handleRangeInput();
+            handleInputChange(numericValue, false);
           }}
-          min={state.minProductPrice}
-          max={state.maxProductPrice}
         />
-      </div>
-    </>
+      </Box>
+    </div>
   );
 };
