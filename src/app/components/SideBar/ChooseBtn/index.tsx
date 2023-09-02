@@ -16,7 +16,7 @@ export const ChooseBtn: React.FC<IBtn> = ({
     setSelectedValue(e.target.value as string);
   };
   return (
-    <Box sx={{ minWidth: 170 }}>
+    <Box sx={{ minWidth: "90%" }}>
       <FormControl fullWidth>
         <InputLabel
           variant="standard"

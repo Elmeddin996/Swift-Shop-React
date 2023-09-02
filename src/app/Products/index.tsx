@@ -1,23 +1,21 @@
 import * as React from "react";
-import { useProductContext } from "../../hooks";
 import { ProductList } from "../components/ProductList";
 import "./style.scss";
 import { SideBar } from "../components/SideBar";
 import { PriceFilterRange } from "../components/PriceFilterRange";
+import { SearchProduct } from "../components/SearchProduct";
 
 export const ProductPage = () => {
-  const { filteredProducts, setFilteredProducts, productList} = useProductContext();
-
   return (
     <div>
       <SideBar />
       <div className="search-filter-container">
-      <PriceFilterRange productList={productList?.data} setProducts={setFilteredProducts}/>
+        <SearchProduct />
+        <PriceFilterRange />
       </div>
       <div className="product-container">
-        <ProductList products={filteredProducts} />
+        <ProductList />
       </div>
-    </div> 
-
+    </div>
   );
 };
