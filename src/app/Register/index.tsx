@@ -2,6 +2,9 @@ import React from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { TextField, Button, Container, Typography } from "@mui/material";
+import { useService } from "../../APIs/Services";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../routes/consts";
 
 const validationSchema = yup.object({
   username: yup.string().required("User name is required!!!"),
@@ -21,6 +24,9 @@ const validationSchema = yup.object({
 });
 
 export const Register: React.FC = () => {
+  const { authService } = useService();
+  const navigate=useNavigate()
+
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -29,11 +35,12 @@ export const Register: React.FC = () => {
       confirmPassword: "",
       fullName: "",
       address: "",
-      phone: "",
+      phone: "+994",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      authService.register(values)
+      navigate(ROUTES.USER.LOGIN)
     },
   });
 

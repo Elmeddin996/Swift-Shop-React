@@ -3,13 +3,24 @@ import LogoutIconn from "@mui/icons-material/Logout";
 import { Button } from "@mui/material";
 import { logout } from "../../../features/userLogined/loginSlice";
 import { useDispatch } from "react-redux";
+import { useService } from "../../../APIs/Services";
+import { useMutation } from "react-query";
 
 export const LogoutIcon = () => {
+  const { authService } = useService();
   const dispatch = useDispatch();
+
+  const { mutateAsync: mutateLogout } = useMutation((userId: string) =>
+  authService.logout(userId),
+  {
+    onSuccess:()=>{dispatch(logout())}
+  }
+  );
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-    dispatch(logout());
+    const userId=localStorage.getItem("userId")
+   if (userId) {
+    mutateLogout(userId)
+   }
   };
 
   return (

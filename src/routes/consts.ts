@@ -12,4 +12,5 @@ export const ROUTES = {
     RESET_PASSWORD: "/reset-password",
     DETAIL:"/profil"
   },
+  SHOPPING_CART:"/shopping-cart",
 };

@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 const { ESecretkey } = require("./secretKey");
 const { DCategoryList } = require("./data/categories");
 const { DBrandList } = require("./data/brands");
+const { DBasketDatas } = require("./data/basketDatas");
 
 const PORT = process.env.PORT | 3001;
 
@@ -21,6 +22,13 @@ app.use("/imgs", express.static(path.join(__dirname, "data/imgs")));
 const createToken = () => {
   return jwt.sign({ _id: this._id }, ESecretkey.key, { expiresIn: "12h" });
 };
+
+app.post("/signup", (req, res) => {
+  const newUser=req.body;
+  DUserData.push(newUser)
+ res.status(200).json(newUser)
+});
+
 
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
@@ -35,10 +43,13 @@ app.post("/login", (req, res) => {
   res.sendStatus(400);
 });
 
+app.post("/logout", (_, res) => {
+  res.sendStatus(200);
+});
+
 app.get("/products", (_, res) => {
   res.json(DProductList);
 });
-
 app.get("/product/:id", (req, res) => {
   const product = DProductList.find(
     (prod) => prod.id === req.params.id
@@ -59,6 +70,19 @@ app.get("/categories", (_, res) => {
 app.get("/brands", (_, res) => {
   res.json(DBrandList);
 });
+
+
+app.get("/basket-items", (_,res)=>{
+  res.json(DBasketDatas)
+})
+
+app.post("/add-basket-item", (req,res)=>{
+  const newItem= req.body;
+  DBasketDatas.push(newItem)
+  res.status(200).json(newItem)
+  console.log(newItem);
+})
+
 
 app.listen(PORT, () => {
   console.log(PORT);
