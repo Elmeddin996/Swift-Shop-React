@@ -8,16 +8,58 @@ import "./style.scss";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../routes/consts";
 import { IProduct } from "../../../models";
+import { useCartItemContext } from "../../../hooks";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 interface IProductCard {
   data: IProduct;
 }
 
-export const ProductCard: React.FC<IProductCard> = ({ data }) => {
-  const navigate = useNavigate();
+interface ICartItem {
+  productId: number;
+  count: number;
+}
 
+export const ProductCard: React.FC<IProductCard> = ({ data }) => {
+  const { localCart, setLocalCart,mainCart, mutateCartItem } = useCartItemContext();
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.isLogined.isAuthenticated
+  );
+  const navigate = useNavigate();
   const goToDetail = () => {
     navigate(`${ROUTES.PRODUCT.DETAIL}/${data.id}`);
+  };
+
+  const addToCart = (productId: number) => {
+    if (!isAuthenticated) {
+      const existingItem = localCart?.find(
+        (item: ICartItem) => item.productId === productId
+      );
+      if (existingItem) {
+        const updatedCart = [...localCart];
+        existingItem.count++;
+        setLocalCart(updatedCart);
+      } else {
+        const updatedCart = [...localCart, { productId, count: 1 }];
+        setLocalCart(updatedCart);
+      }
+    } else {
+      const existingItem = mainCart?.data.find(
+        (item: ICartItem) => item.productId === productId
+      );
+      if (existingItem) {
+        const updatedItem ={
+          ...existingItem,
+          count:existingItem.count + 1
+        }
+        mutateCartItem(updatedItem);
+      } else {
+       const userId = localStorage.getItem("userId")
+        const newCart = { productId, count: 1, userId:userId };
+        mutateCartItem(newCart);
+      }
+    }
   };
 
   return (
@@ -37,16 +79,18 @@ export const ProductCard: React.FC<IProductCard> = ({ data }) => {
             <Typography variant="body2" color="text.secondary">
               {data.description}
             </Typography>
+            <Typography>{data.price} $</Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>
           <Button
-            size="small"
+            size="large"
             color="primary"
             variant="outlined"
             className={`purchase`}
+            onClick={() => addToCart(+data.id)}
           >
-            {data.price} $
+            Add To Cart
           </Button>
         </CardActions>
       </Card>

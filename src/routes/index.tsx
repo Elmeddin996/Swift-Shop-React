@@ -12,6 +12,8 @@ import { AuthProvider } from "../context/AuthContext";
 import { UserDetail } from "../app/UserDetail";
 import { ProtectedRouterLoginRegister } from "../ProtectedRouters/ProtectedLoginRegister";
 import { ProtectedRouterProfil } from "../ProtectedRouters/ProtectedProfilPage";
+import { ShoppingCart } from "../app/ShoppingCart";
+import { ShoppingCartProvider } from "../context/ShoppingCartContext";
 
 const ProductPage = React.lazy(() =>
   import("../app/Products").then(({ ProductPage }) => ({
@@ -45,7 +47,9 @@ export const AppRoutes: React.FC = () => {
           path={ROUTES.PRODUCT.LIST}
           element={
             <ProductProvider>
-              <ProductPage />
+              <ShoppingCartProvider>
+                <ProductPage />
+              </ShoppingCartProvider>
             </ProductProvider>
           }
         />
@@ -66,7 +70,21 @@ export const AppRoutes: React.FC = () => {
           }
         />
 
-        <Route path={`${ROUTES.PRODUCT.DETAIL}/:id`} element={<ProductDetail />} />
+        <Route
+          path={ROUTES.SHOPPING_CART}
+          element={
+            <ProductProvider>
+              <ShoppingCartProvider>
+                <ShoppingCart />
+              </ShoppingCartProvider>
+            </ProductProvider>
+          }
+        />
+
+        <Route
+          path={`${ROUTES.PRODUCT.DETAIL}/:id`}
+          element={<ProductDetail />}
+        />
 
         <Route path="*" element={<ErrorPage />} />
       </Routes>
