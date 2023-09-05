@@ -1,5 +1,4 @@
-.navbar{
-
+.navbar {
   position: fixed;
   top: 0;
 
@@ -9,24 +8,45 @@
     align-items: center;
     width: 100%;
     cursor: pointer;
-    
+
     .img-lg-logo {
       max-width: 30%;
       height: auto;
     }
-    
+
     .img-sm-logo {
       max-width: 15%;
       height: auto;
     }
   }
   .custom-tabs .MuiTabs-indicator {
-    background: linear-gradient(#000, #FFD700);
+    background: linear-gradient(#000, #ffd700);
   }
   .custom-tabs-none-indicator .MuiTabs-indicator {
     background: none;
   }
-  .disabled-tab{
+  .disabled-tab {
     visibility: hidden;
+  }
+
+  .shopping-cart-icon {
+    position: relative;
+    display: inline-block;
+    transition: transform 0.3s;
+    color: white;
+    span {
+      border-radius: 60%;
+      color: #000;
+    }
+    
+    @media (max-width: 900px) {
+      width: 100px;
+      margin-top: 10px;
+    }
+
+    :hover {
+      transform: scale(1.1);
+      
+    }
   }
 }

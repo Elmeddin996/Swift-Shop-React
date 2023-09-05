@@ -7,7 +7,7 @@ import { Button, CardActionArea, CardActions, Grid } from "@mui/material";
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../routes/consts";
-import { IProduct } from "../../../models";
+import { IProduct, IShoppingCartItem } from "../../../models";
 import { useCartItemContext } from "../../../hooks";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
@@ -16,13 +16,9 @@ interface IProductCard {
   data: IProduct;
 }
 
-interface ICartItem {
-  productId: number;
-  count: number;
-}
-
 export const ProductCard: React.FC<IProductCard> = ({ data }) => {
-  const { localCart, setLocalCart,mainCart, mutateCartItem } = useCartItemContext();
+  const { localCart, setLocalCart, mutateCartItem } =
+    useCartItemContext();
   const isAuthenticated = useSelector(
     (state: RootState) => state.isLogined.isAuthenticated
   );
@@ -31,10 +27,10 @@ export const ProductCard: React.FC<IProductCard> = ({ data }) => {
     navigate(`${ROUTES.PRODUCT.DETAIL}/${data.id}`);
   };
 
-  const addToCart = (productId: number) => {
+  const addToCart = (productId: string) => {
     if (!isAuthenticated) {
       const existingItem = localCart?.find(
-        (item: ICartItem) => item.productId === productId
+        (item: IShoppingCartItem) => item.productId === productId
       );
       if (existingItem) {
         const updatedCart = [...localCart];
@@ -45,20 +41,8 @@ export const ProductCard: React.FC<IProductCard> = ({ data }) => {
         setLocalCart(updatedCart);
       }
     } else {
-      const existingItem = mainCart?.data.find(
-        (item: ICartItem) => item.productId === productId
-      );
-      if (existingItem) {
-        const updatedItem ={
-          ...existingItem,
-          count:existingItem.count + 1
-        }
-        mutateCartItem(updatedItem);
-      } else {
-       const userId = localStorage.getItem("userId")
-        const newCart = { productId, count: 1, userId:userId };
-        mutateCartItem(newCart);
-      }
+      const userId = localStorage.getItem("userId")
+      mutateCartItem({productId, userId});
     }
   };
 
@@ -88,7 +72,7 @@ export const ProductCard: React.FC<IProductCard> = ({ data }) => {
             color="primary"
             variant="outlined"
             className={`purchase`}
-            onClick={() => addToCart(+data.id)}
+            onClick={() => addToCart(data.id)}
           >
             Add To Cart
           </Button>

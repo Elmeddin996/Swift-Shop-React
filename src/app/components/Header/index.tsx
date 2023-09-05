@@ -24,6 +24,7 @@ import { LogoutIcon } from "../LogoutIcon";
 import { RootState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { login, logout } from "../../../features/userLogined/loginSlice";
+import { Link } from "react-router-dom";
 
 export const Header: React.FC = () => {
   const [tabValue, setTabValue] = React.useState<Number>(0);
@@ -35,6 +36,9 @@ export const Header: React.FC = () => {
   const location = useLocation();
   const isAuthenticated = useSelector(
     (state: RootState) => state.isLogined.isAuthenticated
+  );
+  const cartCount = useSelector(
+    (state: RootState) => state.cartCount.cartCount
   );
 
   React.useEffect(() => {
@@ -131,7 +135,10 @@ export const Header: React.FC = () => {
               </Font>
             </Grid>
             <Grid item sm={3} xs={3}>
-              <ShoppingCartCheckoutIcon />
+              <Typography className="shopping-cart-icon">
+                <ShoppingCartCheckoutIcon sx={{fontSize:40}}/>
+                <span>{cartCount>0?cartCount:""}</span>
+              </Typography>
             </Grid>
             <DrawerMenu isLogined={isAuthenticated} />
           </Grid>
@@ -159,7 +166,9 @@ export const Header: React.FC = () => {
             </Grid>
             <Grid item xs={5.5}>
               <Tabs
-                className={tabValue===4?"custom-tabs-none-indicator":"custom-tabs"}
+                className={
+                  tabValue === 4 ? "custom-tabs-none-indicator" : "custom-tabs"
+                }
                 textColor="inherit"
                 value={tabValue}
                 onChange={(e, value) => handleChangePage(value)}
@@ -168,24 +177,25 @@ export const Header: React.FC = () => {
                 <Tab label="Products" />
                 <Tab label="Shop" />
                 <Tab label="Contact" />
-                <Tab disabled className="disabled-tab"/>
-              </Tabs> 
+                <Tab disabled className="disabled-tab" />
+              </Tabs>
             </Grid>
 
             <Grid item xs={0.5}>
-              <Typography>
-                <ShoppingCartCheckoutIcon />
-              </Typography>
+              <Link to={ROUTES.SHOPPING_CART} className="shopping-cart-icon">
+                <ShoppingCartCheckoutIcon sx={{fontSize:30}} />
+                <span>{cartCount>0?cartCount:""}</span>
+              </Link>
             </Grid>
 
             {isAuthenticated ? (
               <>
-              <Grid item xs={1.5}>
-              <ProfileIcon />
-              </Grid>
-              <Grid item xs={1.5}>
-                <LogoutIcon />
-              </Grid>
+                <Grid item xs={1.5}>
+                  <ProfileIcon />
+                </Grid>
+                <Grid item xs={1.5}>
+                  <LogoutIcon />
+                </Grid>
               </>
             ) : (
               <LoginRegisterBtn isLogined={isAuthenticated} />
