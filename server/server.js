@@ -24,11 +24,10 @@ const createToken = () => {
 };
 
 app.post("/signup", (req, res) => {
-  const newUser=req.body;
-  DUserData.push(newUser)
- res.status(200).json(newUser)
+  const newUser = req.body;
+  DUserData.push(newUser);
+  res.status(200).json(newUser);
 });
-
 
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
@@ -50,10 +49,9 @@ app.post("/logout", (_, res) => {
 app.get("/products", (_, res) => {
   res.json(DProductList);
 });
+
 app.get("/product/:id", (req, res) => {
-  const product = DProductList.find(
-    (prod) => prod.id === req.params.id
-  );
+  const product = DProductList.find((prod) => prod.id === req.params.id);
   console.log(product);
   if (product) res.send(product);
   else res.status(404).send("Product not found");
@@ -71,18 +69,45 @@ app.get("/brands", (_, res) => {
   res.json(DBrandList);
 });
 
+app.get("/basket-items", (_, res) => {
+  res.json(DBasketDatas);
+});
 
-app.get("/basket-items", (_,res)=>{
-  res.json(DBasketDatas)
-})
+app.post("/add-basket-item", (req, res) => {
+  const item = DBasketDatas.find(data=>data.productId===req.body.productId)
+  if (item) {
+    item.count++
+  }else{
+    const newItem ={
+      id: Date.now(),
+      productId: req.body.productId,
+      userId: req.body.userId,
+      count: 1
+    }
+    DBasketDatas.push(newItem)
+  }
+  res.status(200).json(DBasketDatas)
+});
 
-app.post("/add-basket-item", (req,res)=>{
-  const newItem= req.body;
-  DBasketDatas.push(newItem)
-  res.status(200).json(newItem)
-  console.log(newItem);
-})
+app.post("/reduce-basket-item", (req, res) => {
+  const item = DBasketDatas.find(data=>data.productId===req.body.productId)
+  if (item.count>1) {
+    item.count--
+    res.status(200).json(DBasketDatas)
+  }else{
+    res.status(404)
+  }
+});
 
+app.delete("/remove-basket-item/:productId", (req, res) => {
+  const itemIndex = DBasketDatas.findIndex(data => data.productId === req.params.productId);
+  if (itemIndex !== -1) {
+    DBasketDatas.splice(itemIndex, 1);
+    res.status(200).json(DBasketDatas)
+  } else {
+    res.status(404)
+  }
+});
 
 app.listen(PORT, () => {
   console.log(PORT);

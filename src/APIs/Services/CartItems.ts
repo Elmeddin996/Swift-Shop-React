@@ -1,4 +1,3 @@
-import { IShoppingCartItem } from "../../models";
 import { HttpClient } from "../HTTPClients";
 
 export class CartItemService extends HttpClient {
@@ -10,7 +9,15 @@ export class CartItemService extends HttpClient {
     return await this.get('basket-items')
   }
 
-  async addCartItem(body: IShoppingCartItem){
+  async addCartItem(body: any){
     return await this.post(`add-basket-item`, body)
+  }
+
+  async reduceCartItem(body: any){
+    return await this.post(`reduce-basket-item`, body)
+  }
+
+  async removeCartItem(productId:string){
+    return await this.delete(`remove-basket-item`,productId)
   }
 }
