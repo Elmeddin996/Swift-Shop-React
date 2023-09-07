@@ -24,7 +24,7 @@ export const MultiCarousel: React.FC<IMultiCarouselProps> = ({
     },
     desktop: {
       breakpoint: { max: 1024, min: 800 },
-      items: 4,
+      items: 3,
     },
     tablet: {
       breakpoint: { max: 800, min: 464 },

@@ -44,8 +44,8 @@ export const MultiCarouselCard: React.FC<MultiCarouselCardProps> = ({
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {product.title.length > 20
-            ? product.title.slice(0, 20)
+          {product.title.length > 16
+            ? product.title.slice(0, 16)
             : product.title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
