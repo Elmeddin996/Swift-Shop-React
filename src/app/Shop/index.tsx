@@ -5,7 +5,8 @@ import { SideBar } from "../components/SideBar";
 import { PriceFilterRange } from "../components/PriceFilterRange";
 import { SearchProduct } from "../components/SearchProduct";
 
-export const ProductPage = () => {
+export const ShopPage = () => {
+  
   return (
     <div>
       <SideBar />

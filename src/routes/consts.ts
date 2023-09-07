@@ -1,11 +1,11 @@
 export const ROUTES = {
   PRODUCT: {
-    LIST: "/products",
+    LIST: "/shop",
     DETAIL: "/detail",
   },
   HOME: "/",
   CONTACT_US: "/contact",
-  SHOP: "/shop",
+  ABOUT: "/about",
   USER: {
     LOGIN: "/login",
     REGISTER: "/register",

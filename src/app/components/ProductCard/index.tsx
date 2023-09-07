@@ -11,6 +11,8 @@ import { IProduct, IShoppingCartItem } from "../../../models";
 import { useCartItemContext } from "../../../hooks";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
+import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 interface IProductCard {
   data: IProduct;
@@ -47,33 +49,40 @@ export const ProductCard: React.FC<IProductCard> = ({ data }) => {
   };
 
   return (
-    <Grid item md={3.5} sm={5} xs={10} className={`card-container`}>
-      <Card sx={{ maxWidth: 345 }} className="product-card">
+    <Grid item lg={3.5} md={4.5} sm={8} xs={10} className={`card-container`}>
+      <Card sx={{ maxWidth: 345}} className="product-card">
         <CardActionArea onClick={goToDetail}>
+          <CardContent>
           <CardMedia
             component="img"
             height="140"
             image={data.thumbnail}
             alt="img"
           />
-          <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              {data.title}
+              {data.title.length>30?data.title.slice(0,30)+"...":data.title}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {data.description}
+            <Typography className="card-description" variant="body2" color="text.secondary">
+            {data.description.length > 45
+            ? data.description.slice(0, 45) + "..."
+            : data.description}
             </Typography>
             <Typography>{data.price} $</Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions>
+        <CardActions sx={{display:"flex", flexDirection:"column", width:"100%"}}>
           <Button
-            size="large"
-            color="primary"
+            className="cart-action-btn"
+            onClick={goToDetail}
+          >
+          <InfoOutlinedIcon/>
+            Go To Detail</Button>
+          <Button
             variant="outlined"
-            className={`purchase`}
+            className="cart-action-btn"
             onClick={() => addToCart(data.id)}
           >
+            <ShoppingBagOutlinedIcon/>
             Add To Cart
           </Button>
         </CardActions>

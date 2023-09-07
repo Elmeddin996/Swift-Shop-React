@@ -55,11 +55,13 @@ export const ShoppingCartProvider: React.FC<any> = ({ children }: any) => {
     defaultValue: [],
   });
 
-  if (isAuthenticated) {
-    dispatch(setCount(mainCart?.data.length))
-  }else{
-    dispatch(setCount(localCart?.length))
-  }
+  React.useEffect(()=>{
+    if (isAuthenticated) {
+      dispatch(setCount(mainCart?.data.length))
+    }else{
+      dispatch(setCount(localCart?.length))
+    }
+  },[isAuthenticated,mainCart,localCart, dispatch])
 
 
   return (
