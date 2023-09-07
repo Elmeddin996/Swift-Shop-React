@@ -10,7 +10,7 @@ export const ProductList:React.FC = () => {
   const { filteredProducts} = useProductContext();
 
   return (
-    <Grid container spacing={6} className="product-list">
+    <Grid container  className="product-list">
     {filteredProducts?.map((data: IProduct) => {
       return <ProductCard key={data.id} data={data} />;
     })}

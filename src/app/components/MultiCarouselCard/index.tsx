@@ -6,6 +6,8 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { IProduct } from "../../../models";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../../routes/consts";
 
 interface MultiCarouselCardProps {
   product: IProduct;
@@ -16,6 +18,12 @@ export const MultiCarouselCard: React.FC<MultiCarouselCardProps> = ({
   product,
   color
 }) => {
+  const navigate = useNavigate();
+
+  const goToDetail = () => {
+    navigate(`${ROUTES.PRODUCT.DETAIL}/${product.id}`);
+  };
+
   return (
     <Card
       sx={{
@@ -47,7 +55,7 @@ export const MultiCarouselCard: React.FC<MultiCarouselCardProps> = ({
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="large"  variant="contained" sx={{width:"100%", bgcolor:color,color:"black", ":hover":{bgcolor:"black",color:"white"}}}>
+        <Button onClick={goToDetail} size="large"  variant="contained" sx={{width:"100%", bgcolor:color,color:"black", ":hover":{bgcolor:"black",color:"white"}}}>
           Go To Detail{" "}
         </Button>
       </CardActions>

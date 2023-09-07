@@ -50,14 +50,14 @@ export const DrawerMenu: React.FC<Props> = ({ isLogined }) => {
           >
             <ListItemButton>
               <ListItemIcon>
-                <ListItemText sx={{ color: "white" }}>Products</ListItemText>
+                <ListItemText sx={{ color: "white" }}>Shop</ListItemText>
               </ListItemIcon>
             </ListItemButton>
           </NavLink>
-          <NavLink to={ROUTES.SHOP} onClick={() => setOpenDrawer(!openDrawer)}>
+          <NavLink to={ROUTES.ABOUT} onClick={() => setOpenDrawer(!openDrawer)}>
             <ListItemButton>
               <ListItemIcon>
-                <ListItemText sx={{ color: "white" }}>Shop</ListItemText>
+                <ListItemText sx={{ color: "white" }}>About</ListItemText>
               </ListItemIcon>
             </ListItemButton>
           </NavLink>

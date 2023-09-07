@@ -15,9 +15,9 @@ import { ProtectedRouterProfil } from "../ProtectedRouters/ProtectedProfilPage";
 import { ShoppingCart } from "../app/ShoppingCart";
 import { ShoppingCartProvider } from "../context/ShoppingCartContext";
 
-const ProductPage = React.lazy(() =>
-  import("../app/Products").then(({ ProductPage }) => ({
-    default: ProductPage,
+const ShopPage = React.lazy(() =>
+  import("../app/Shop").then(({ ShopPage }) => ({
+    default: ShopPage,
   }))
 );
 
@@ -48,7 +48,7 @@ export const AppRoutes: React.FC = () => {
           element={
             <ProductProvider>
               <ShoppingCartProvider>
-                <ProductPage />
+                <ShopPage />
               </ShoppingCartProvider>
             </ProductProvider>
           }
@@ -83,7 +83,11 @@ export const AppRoutes: React.FC = () => {
 
         <Route
           path={`${ROUTES.PRODUCT.DETAIL}/:id`}
-          element={<ProductDetail />}
+          element={
+            <ShoppingCartProvider>
+              <ProductDetail />
+            </ShoppingCartProvider>
+          }
         />
 
         <Route path="*" element={<ErrorPage />} />

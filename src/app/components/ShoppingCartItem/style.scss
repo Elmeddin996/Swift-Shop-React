@@ -1,0 +1,107 @@
+.shopping-cart-item {
+  display: flex;
+  width: 95%;
+  margin: 0 auto;
+  margin-top: 10px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+
+  .left-side {
+    display: flex;
+    @media (max-width: 600px) {
+      flex-direction: column;
+    }
+    img {
+      width: 160px;
+      height: 130px;
+      padding: 2px;
+      box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+      @media (max-width: 800px) {
+        width: 140px;
+        height: 110px;
+      }
+    }
+    .middle-container {
+      margin-left: 10px;
+      .title {
+        font-size: x-large;
+        font-family: "Times New Roman", Times, serif;
+        @media (max-width: 800px) {
+          font-size: large;
+        }
+
+        @media (max-width: 600px) {
+          font-size: 1rem;
+        }
+      }
+      .count-container {
+        margin-top: 10px;
+        margin-left: 60px;
+        .product-count {
+          font-size: x-large;
+        }
+        .counter-btn {
+          font-size: x-large;
+        }
+
+        @media (max-width: 320px) {
+          display: flex;
+          flex-direction: column;
+        }
+      }
+
+      .price-container {
+        display: flex;
+        justify-content: space-between;
+        .product-price {
+          font-size: 1.2em;
+          margin-top: 0.5rem;
+        }
+        .product-price-disc {
+          text-decoration: line-through;
+          font-size: 1.2em;
+        }
+
+        .discounted-price {
+          color: red;
+          font-size: 1.2em;
+          @media (max-width: 800px) {
+            font-size: 1rem;
+          }
+          @media (min-width: 900px) {
+            margin-left: 10px;
+          }
+        }
+        @media (max-width: 900px) {
+        flex-direction: column;
+        }
+      }
+    }
+  }
+
+  .right-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .remove-btn {
+      background-color: rgba(255, 0, 0, 0.6);
+      color: black;
+      height: 40%;
+      margin-top: 0.5rem;
+      @media (max-width: 800px) {
+        height: 20%;
+        width: 20%;
+      }
+    }
+    .total-price {
+      margin-right: 0.5rem;
+    }
+  }
+}
+.shopping-cart-item:hover {
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
+}

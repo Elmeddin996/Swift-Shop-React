@@ -1,17 +1,23 @@
 import React from "react";
-import { Box, Button, Paper, Typography } from "@mui/material";
+import { Button, Paper, Typography } from "@mui/material";
 import { ICartProduct, IShoppingCartItem } from "../../../models";
 import { useCartItemContext } from "../../../hooks";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
+import "./style.scss";
 
 interface ICartItem {
   product: ICartProduct;
 }
 
 export const ShoppingCartItem: React.FC<ICartItem> = ({ product }) => {
-  const {mutateCartItem, localCart, setLocalCart, mutateRemoveItem,mutateReduceCartItem} =
-    useCartItemContext();
+  const {
+    mutateCartItem,
+    localCart,
+    setLocalCart,
+    mutateRemoveItem,
+    mutateReduceCartItem,
+  } = useCartItemContext();
   const isAuthenticated = useSelector(
     (state: RootState) => state.isLogined.isAuthenticated
   );
@@ -29,7 +35,7 @@ export const ShoppingCartItem: React.FC<ICartItem> = ({ product }) => {
       });
       setLocalCart(updatedCarts);
     } else {
-      mutateReduceCartItem({productId})
+      mutateReduceCartItem({ productId });
     }
   };
 
@@ -50,35 +56,74 @@ export const ShoppingCartItem: React.FC<ICartItem> = ({ product }) => {
       mutateCartItem({ productId, userId });
     }
   };
-  
+
   const handleRemove = (productId: string) => {
-   if (!isAuthenticated) {
-     const updatedCarts = localCart?.filter(
-       (cartItem: IShoppingCartItem) => cartItem.productId !== productId
-     );
-     setLocalCart(updatedCarts);
-   }else{
-    mutateRemoveItem(productId)
-   }
+    if (!isAuthenticated) {
+      const updatedCarts = localCart?.filter(
+        (cartItem: IShoppingCartItem) => cartItem.productId !== productId
+      );
+      setLocalCart(updatedCarts);
+    } else {
+      mutateRemoveItem(productId);
+    }
   };
 
   return (
-    <Box>
-      <Paper elevation={3} sx={{ width: "100%", display: "flex" }}>
-        <img src={product.thumbnail} style={{ width: 100 }} alt="cart-item" />
-        <div>
-          <Typography>{product.title}</Typography>
-          <Button
+    <Paper elevation={3} className="shopping-cart-item">
+      <div className="left-side">
+        <img src={product.thumbnail} alt="cart-item" />
+        <div className="middle-container">
+          <Typography className="title">{product.title}</Typography>
+         
+         <div className="count-container">
+         <Button
+         className="counter-btn"
             disabled={product.count === 1}
             onClick={() => handleReduce(product.id)}
           >
             -
           </Button>
-          <span>{product.count}</span>
-          <Button onClick={() => handlePlus(product.id)}>+</Button>
+          <span className="product-count">{product.count}</span>
+
+          <Button className="counter-btn" onClick={() => handlePlus(product.id)}>+</Button>
+         </div>
+
+          <div className="price-container">
+            <Typography
+              className={
+                product.discountPercentage > 0
+                  ? "product-price-disc"
+                  : "product-price"
+              }
+            >
+              Price:{product.price.toFixed(2)}$
+            </Typography>
+            {product.discountPercentage > 0 && (
+              <Typography className="discounted-price">
+                Discounted Price: 
+                {(
+                  product.price -
+                  (product.price * product.discountPercentage) / 100
+                ).toFixed(2)}
+                $
+              </Typography>
+            )}
+          </div>
         </div>
-        <Button onClick={() => handleRemove(product.id)}>Remove</Button>
-      </Paper>
-    </Box>
+      </div>
+      <div className="right-side">
+        <Button className="remove-btn" onClick={() => handleRemove(product.id)}>
+          Remove
+        </Button>
+        <Typography className="total-price">
+          Total Price:{" "}
+          {(
+            product.price * product.count -
+            (product.price * product.count * product.discountPercentage) / 100
+          ).toFixed(2)}
+          $
+        </Typography>
+      </div>
+    </Paper>
   );
 };

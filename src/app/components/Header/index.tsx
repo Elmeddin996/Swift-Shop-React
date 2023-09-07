@@ -60,19 +60,19 @@ export const Header: React.FC = () => {
   React.useEffect(() => {
     switch (location.pathname) {
       case "/":
-        setTabValue(0);
-        break;
-      case "/products":
         setTabValue(1);
         break;
       case "/shop":
         setTabValue(2);
         break;
-      case "/contact":
+      case "/about":
         setTabValue(3);
         break;
-      default:
+      case "/contact":
         setTabValue(4);
+        break;
+      default:
+        setTabValue(0);
         break;
     }
   }, [location.pathname]);
@@ -81,16 +81,16 @@ export const Header: React.FC = () => {
     setTabValue(value);
     localStorage.setItem("tabValue", String(value));
     switch (value) {
-      case 0:
+      case 1:
         navigate(ROUTES.HOME);
         break;
-      case 1:
+      case 2:
         navigate(ROUTES.PRODUCT.LIST);
         break;
-      case 2:
-        navigate(ROUTES.SHOP);
-        break;
       case 3:
+        navigate(ROUTES.ABOUT);
+        break;
+      case 4:
         navigate(ROUTES.CONTACT_US);
         break;
 
@@ -120,7 +120,7 @@ export const Header: React.FC = () => {
               className="logo-container"
               onClick={() => {
                 navigate(ROUTES.HOME);
-                setTabValue(0);
+                setTabValue(1);
               }}
             >
               <img
@@ -147,10 +147,11 @@ export const Header: React.FC = () => {
             <Grid
               item
               xs={3}
+              sm={2}
               className="logo-container"
               onClick={() => {
                 navigate(ROUTES.HOME);
-                setTabValue(0);
+                setTabValue(1);
               }}
             >
               <img
@@ -164,24 +165,24 @@ export const Header: React.FC = () => {
                 </Text>
               </Font>
             </Grid>
-            <Grid item xs={5.5}>
+            <Grid item xs={5.5} sm={6.4}>
               <Tabs
                 className={
-                  tabValue === 4 ? "custom-tabs-none-indicator" : "custom-tabs"
+                  tabValue === 0 ? "custom-tabs-none-indicator" : "custom-tabs"
                 }
                 textColor="inherit"
                 value={tabValue}
                 onChange={(e, value) => handleChangePage(value)}
               >
+                <Tab disabled className="disabled-tab" /> 
                 <Tab label="Home" />
-                <Tab label="Products" />
                 <Tab label="Shop" />
+                <Tab label="About" />
                 <Tab label="Contact" />
-                <Tab disabled className="disabled-tab" />
               </Tabs>
             </Grid>
 
-            <Grid item xs={0.5}>
+            <Grid item xs={0.5} sm={0.6}>
               <Link to={ROUTES.SHOPPING_CART} className="shopping-cart-icon">
                 <ShoppingCartCheckoutIcon sx={{fontSize:30}} />
                 <span>{cartCount>0?cartCount:""}</span>
@@ -198,7 +199,10 @@ export const Header: React.FC = () => {
                 </Grid>
               </>
             ) : (
-              <LoginRegisterBtn isLogined={isAuthenticated} />
+              <Grid item xs={3}>
+                <LoginRegisterBtn  isLogined={isAuthenticated} />
+              </Grid>
+              
             )}
           </Grid>
         )}
