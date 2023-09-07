@@ -6,7 +6,6 @@ import {
   Tab,
   Tabs,
   Toolbar,
-  Typography,
   useTheme,
   useMediaQuery,
 } from "@mui/material";
@@ -135,10 +134,10 @@ export const Header: React.FC = () => {
               </Font>
             </Grid>
             <Grid item sm={3} xs={3}>
-              <Typography className="shopping-cart-icon">
+              <Link to={ROUTES.SHOPPING_CART} className="shopping-cart-icon">
                 <ShoppingCartCheckoutIcon sx={{fontSize:40}}/>
                 <span>{cartCount>0?cartCount:""}</span>
-              </Typography>
+              </Link>
             </Grid>
             <DrawerMenu isLogined={isAuthenticated} />
           </Grid>

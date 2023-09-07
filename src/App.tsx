@@ -4,6 +4,7 @@ import { AppRoutes } from "./routes";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Header } from "./app/components/Header";
 import { BrowserRouter } from "react-router-dom";
+import { Footer } from "./app/components/Footer";
 
 const queryClient = new QueryClient();
 
@@ -13,6 +14,7 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Header />
         <AppRoutes />
+        <Footer/>
       </BrowserRouter>
     </QueryClientProvider>
   );
