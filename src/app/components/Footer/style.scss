@@ -1,13 +1,17 @@
 .footer-distributed {
   position: relative;
-  z-index: 3;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
   background-image: linear-gradient(90deg, rgba(0,0,0,0.9976365546218487) 0%, rgba(100,77,0,1) 42%, rgba(252,194,1,1) 100%);
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
   box-sizing: border-box;
   width: 100%;
   text-align: left;
   font: bold 16px sans-serif;
-  padding: 55px 50px;
+  padding: 35px 30px;
+  margin-top: 50px;
 }
 
 .footer-distributed .footer-left,

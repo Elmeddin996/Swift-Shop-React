@@ -1,7 +1,7 @@
 import React from "react";
 import { ShoppingCartItem } from "../components/ShoppingCartItem";
 import "./style.scss";
-import { Box, Typography } from "@mui/material";
+import { Box, Pagination, Typography } from "@mui/material";
 import { useCartItemContext, useProductContext } from "../../hooks";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -19,6 +19,10 @@ export const ShoppingCart = () => {
   );
   const [carts, setCarts] = React.useState<IShoppingCartItem[]>();
   const [cartProducts, setCartProducts] = React.useState<ICartProduct[]>();
+
+  const [activePage, setActivePage]= React.useState<number>(1)
+  const startIndex = (activePage - 1) * 6;
+  const slicedProducts = cartProducts?.slice(startIndex, startIndex + 6);
 
   React.useEffect(() => {
     if (isAuthenticated) {
@@ -47,6 +51,13 @@ export const ShoppingCart = () => {
     setCartProducts(cartProduct);
   }, [carts, productList]);
 
+
+  React.useEffect(()=>{
+    if (cartCount<=6) {
+      setActivePage(1)
+    }
+  },[cartCount])
+
   return (
     <div className="shopping-cart">
       <Typography className="shopping-cart-title">
@@ -69,9 +80,20 @@ export const ShoppingCart = () => {
             </Typography>
           </Box>
         )}
-        {cartProducts?.map((product: ICartProduct) => {
+        {slicedProducts?.map((product: ICartProduct) => {
           return <ShoppingCartItem product={product} key={product.id} />;
         })}
+        <Box className="pagination-box">
+        <Pagination
+        count={cartProducts!==undefined?Math.ceil(cartProducts?.length/6):1}
+        page={activePage}
+        onChange={(e,newPage)=>setActivePage(newPage)}
+        showFirstButton
+        variant="outlined"
+        color="primary"
+        shape="rounded"
+      />
+      </Box>
         {cartCount === 0 && <EmptyShoppingCart />}
       </Box>
     </div>
