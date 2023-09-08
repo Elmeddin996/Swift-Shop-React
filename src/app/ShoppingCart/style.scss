@@ -32,7 +32,25 @@
     .total-amount {
       width: 100%;
       display: flex;
+      font-weight: bolder;
        justify-content: space-between;
+    }
+  }
+
+  .pagination-box {
+    display: flex;
+    justify-content: center;
+    margin: 10px 10px;
+    width: 100%;
+    padding: 10px 10px;
+    .MuiButtonBase-root {
+      color: goldenrod;
+      border: 1px solid rgb(199, 149, 24);
+      text-shadow: 1px 1px 1px black;
+    }
+    .Mui-selected {
+      background-color: rgba(22, 22, 21, 0.5);
+      color: white;
     }
   }
 }

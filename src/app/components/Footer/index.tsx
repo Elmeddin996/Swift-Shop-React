@@ -1,6 +1,6 @@
 import React from "react";
 import "./style.scss";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ROUTES } from "../../../routes/consts";
 import { useQuery } from "react-query";
 import { useService } from "../../../APIs/Services";
@@ -16,8 +16,13 @@ export const Footer = () => {
   const { data: siteDatas } = useQuery([EQueryKeys.GET_SITE_DATAS], () =>
     siteDatasService.getSiteDatas()
   );
+
+  const location = useLocation();
+
+  const currentPath = location.pathname;
+
   return (
-    <footer className="footer-distributed">
+    <footer style={currentPath==="/shop"?{display:"none"}:{display:"block"}} className="footer-distributed">
       <div className="footer-left">
         <div className="logo">
           <img src={siteDatas?.data.logoImgUrl} alt="Logo" />

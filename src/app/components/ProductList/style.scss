@@ -1,7 +1,24 @@
 .product-list {
+  display: flex;
+  margin: 55px 0 0 10px;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: 100%;
+  .pagination-box {
     display: flex;
-    margin:55px 0 0 10px;
-    justify-content: space-around;
-    flex-wrap: wrap;
+    justify-content: center;
+    margin: 10px 10px;
     width: 100%;
-}  
+    padding: 10px 10px;
+    background-image: linear-gradient(90deg, black, white 55%, black);
+    .MuiButtonBase-root {
+      color: goldenrod;
+      border: 1px solid rgb(199, 149, 24, 0.5);
+      text-shadow: 1px 1px 1px black;
+    }
+    .Mui-selected {
+      background-color: rgba(22, 22, 21, 0.5);
+      color: white;
+    }
+  }
+}
