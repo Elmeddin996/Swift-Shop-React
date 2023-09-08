@@ -15,13 +15,14 @@ import { ProtectedRouterProfil } from "../ProtectedRouters/ProtectedProfilPage";
 import { ShoppingCart } from "../app/ShoppingCart";
 import { ShoppingCartProvider } from "../context/ShoppingCartContext";
 import { Contact } from "../app/Contact";
+import { About } from "../app/About";
 
 const ShopPage = React.lazy(() =>
   import("../app/Shop").then(({ ShopPage }) => ({
     default: ShopPage,
   }))
-  );
-  
+);
+
 export const AppRoutes: React.FC = () => {
   return (
     <Suspense fallback={<Loading />}>
@@ -36,14 +37,14 @@ export const AppRoutes: React.FC = () => {
             </ProtectedRouterLoginRegister>
           }
         />
-          <Route
-            path={ROUTES.USER.REGISTER}
-            element={
-              <ProtectedRouterLoginRegister>
-                <Register />
-              </ProtectedRouterLoginRegister>
-            }
-          />
+        <Route
+          path={ROUTES.USER.REGISTER}
+          element={
+            <ProtectedRouterLoginRegister>
+              <Register />
+            </ProtectedRouterLoginRegister>
+          }
+        />
         <Route
           path={"/"}
           element={
@@ -90,12 +91,8 @@ export const AppRoutes: React.FC = () => {
             </ShoppingCartProvider>
           }
         />
-        <Route
-        path={ROUTES.CONTACT_US}
-        element={
-          <Contact/>
-        }
-        />
+        <Route path={ROUTES.CONTACT_US} element={<Contact />} />
+        <Route path={ROUTES.ABOUT} element={<About />} />
 
         <Route path="*" element={<ErrorPage />} />
       </Routes>

@@ -1,0 +1,41 @@
+.contact-page-container {
+  background: white;
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  .contact-infarmation {
+    width: 40%;
+    margin-top: 20px;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    .title {
+      justify-content: center;
+      font-family: monospace;
+      font-size: 30px;
+      font-weight: 700;
+      box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
+    }
+
+    .title,
+    .phone,
+    .adress,
+    .sosial {
+      text-decoration: none;
+      color: black;
+      display: flex;
+      align-items: center;
+      margin-left: 30px;
+    }
+
+    .sosial:hover {
+      color: midnightblue;
+    }
+  }
+
+  .map-container {
+    width: 60%;
+    padding: 20px 20px;
+  }
+}
