@@ -21,7 +21,7 @@ export const ProductList: React.FC = () => {
       })}
       <Box className="pagination-box">
         <Pagination
-          count={Math.ceil(filteredProducts?.length / 12)}
+          count={filteredProducts!==undefined?Math.ceil(filteredProducts?.length / 12):1}
           page={activePage}
           onChange={(e, newPage) => setActivePage(newPage)}
           showFirstButton

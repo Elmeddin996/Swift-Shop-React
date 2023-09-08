@@ -8,7 +8,7 @@ import { EQueryKeys } from "../../../enums";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import GitHubIcon from "@mui/icons-material/GitHub";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { Typography } from "@mui/material";
 
 export const Footer = () => {
@@ -22,11 +22,18 @@ export const Footer = () => {
   const currentPath = location.pathname;
 
   return (
-    <footer style={currentPath==="/shop"?{display:"none"}:{display:"block"}} className="footer-distributed">
+    <footer
+      style={
+        currentPath === "/shop" ? { display: "none" } : { display: "block" }
+      }
+      className="footer-distributed"
+    >
       <div className="footer-left">
         <div className="logo">
           <img src={siteDatas?.data.logoImgUrl} alt="Logo" />
-          <Typography className="logo-text">SwiftShop</Typography>
+          <Typography className="logo-text">
+            {siteDatas?.data.companyName}
+          </Typography>
         </div>
 
         <p className="footer-links">
@@ -41,49 +48,49 @@ export const Footer = () => {
           <Link to={ROUTES.CONTACT_US}>Contact</Link>
         </p>
 
-        <p className="footer-company-name">Swift Shop © 2015</p>
+        <p className="footer-company-name">Swift Shop © 2010</p>
       </div>
 
       <div className="footer-center">
         <div>
           <i className="fa fa-map-marker"></i>
-          <p>
-            <span>444 S. Cedros Ave</span> Solana Beach, California
-          </p>
+          <p>{siteDatas?.data.adress}</p>
         </div>
 
         <div>
           <i className="fa fa-phone"></i>
-          <p>+1.555.555.5555</p>
+          <p>{siteDatas?.data.phone}</p>
         </div>
 
         <div>
           <i className="fa fa-envelope"></i>
           <p>
-            <a href="mailto:support@company.com">support@company.com</a>
+            <Link to={ROUTES.CONTACT_US}>Contact Us</Link>
           </p>
         </div>
       </div>
 
       <div className="footer-right">
+       <p> <Link to={ROUTES.ABOUT}>About the company</Link></p>
         <p className="footer-company-about">
-          <Link to={ROUTES.ABOUT}>About the company</Link>
-          Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce
-          euismod convallis velit, eu auctor lacus vehicula sit amet.
+          Swift Shop is a leading electronic sales platform that has been
+          serving customers since its inception in 2010. Our journey began in
+          the vibrant city of Baku, Azerbaijan, and over the years, we've grown
+          into a trusted name in the world of e-commerce.
         </p>
 
         <div className="footer-icons">
-          <Link to={ROUTES.CONTACT_US}>
+          <Link to={siteDatas?.data.facebook}>
             <FacebookIcon />
           </Link>
-          <Link to={ROUTES.CONTACT_US}>
+          <Link to={siteDatas?.data.instagram}>
             <InstagramIcon />
           </Link>
-          <Link to={ROUTES.CONTACT_US}>
+          <Link to={siteDatas?.data.linkedin}>
             <LinkedInIcon />
           </Link>
-          <Link to={ROUTES.CONTACT_US}>
-            <GitHubIcon />
+          <Link to={siteDatas?.data.whatsappLink}>
+            <WhatsAppIcon />
           </Link>
         </div>
       </div>
