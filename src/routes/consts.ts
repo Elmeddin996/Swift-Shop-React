@@ -10,7 +10,9 @@ export const ROUTES = {
     LOGIN: "/login",
     REGISTER: "/register",
     RESET_PASSWORD: "/reset-password",
-    DETAIL:"/profil"
+    DETAIL:"/profil",
+    UPDATE_PASSWORD:"/update-password"
   },
   SHOPPING_CART:"/shopping-cart",
+  ORDER:"/confirm-order"
 };

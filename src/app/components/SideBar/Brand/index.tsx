@@ -19,7 +19,7 @@ export const Brand: React.FC<IBrandCategoryProps> = ({
   const filterByBrand = (brandName: string) => {
     setSelectedFilterValue(brandName);
     const result = productList?.filter((curData: IProduct) => {
-      return curData.brand === brandName;
+      return curData.brand.name === brandName;
     });
     setFilteredProducts(result);
   };

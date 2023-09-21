@@ -42,7 +42,7 @@ export const ShoppingCartItem: React.FC<ICartItem> = ({ product }) => {
   const handlePlus = (productId: string) => {
     if (!isAuthenticated) {
       const updatedCarts = localCart?.map((cartItem: IShoppingCartItem) => {
-        if (cartItem.productId.toString() === productId) {
+        if (cartItem.productId === productId) {
           return {
             ...cartItem,
             count: cartItem.count + 1,
@@ -71,9 +71,9 @@ export const ShoppingCartItem: React.FC<ICartItem> = ({ product }) => {
   return (
     <Paper elevation={3} className="shopping-cart-item">
       <div className="left-side">
-        <img src={product.thumbnail} alt="cart-item" />
+        <img src={product.imageUrl} alt="cart-item" />
         <div className="middle-container">
-          <Typography className="title">{product.title}</Typography>
+          <Typography className="title">{product.name}</Typography>
          
          <div className="count-container">
          <Button
@@ -91,19 +91,19 @@ export const ShoppingCartItem: React.FC<ICartItem> = ({ product }) => {
           <div className="price-container">
             <Typography
               className={
-                product.discountPercentage > 0
+                product.discountPercent > 0
                   ? "product-price-disc"
                   : "product-price"
               }
             >
-              Price:{product.price.toFixed(2)}$
+              Price:{product.salePrice.toFixed(2)}$
             </Typography>
-            {product.discountPercentage > 0 && (
+            {product.discountPercent > 0 && (
               <Typography className="discounted-price">
                 Discounted Price: 
                 {(
-                  product.price -
-                  (product.price * product.discountPercentage) / 100
+                  product.salePrice -
+                  (product.salePrice * product.discountPercent) / 100
                 ).toFixed(2)}
                 $
               </Typography>
@@ -118,8 +118,8 @@ export const ShoppingCartItem: React.FC<ICartItem> = ({ product }) => {
         <Typography className="total-price">
           Total Price:{" "}
           {(
-            product.price * product.count -
-            (product.price * product.count * product.discountPercentage) / 100
+            product.salePrice * product.count -
+            (product.salePrice * product.count * product.discountPercent) / 100
           ).toFixed(2)}
           $
         </Typography>

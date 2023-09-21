@@ -30,7 +30,7 @@ export const Contact = () => {
         </Typography>
         <Typography className="adress">
             <LocationOnIcon />
-          {siteDatas?.data.adress}
+          {siteDatas?.data.address}
         </Typography>
         <Typography className="phone">
             <PhoneIcon /> {siteDatas?.data.phone}
@@ -39,14 +39,14 @@ export const Contact = () => {
             <WhatsAppIcon /> WhatsApp
           </Link>
         <Link
-          to={siteDatas?.data.facebook}
+          to={siteDatas?.data.facebookLink}
           className="facebook sosial"
         >
           <FacebookIcon fontSize="large" />
           Facebook
         </Link>
         <Link
-          to={siteDatas?.data.instagram}
+          to={siteDatas?.data.instagramLink}
           className="instagram sosial"
         >
           <InstagramIcon fontSize="large" />
@@ -54,7 +54,7 @@ export const Contact = () => {
         </Link>
         <Link
           to={
-            siteDatas?.data.linkedin
+            siteDatas?.data.linkedinLink
           }
           className="linkedin sosial"
         >

@@ -38,15 +38,15 @@ export const MultiCarouselCard: React.FC<MultiCarouselCardProps> = ({
     >
       <CardMedia
         component="img"
-        alt="green iguana"
+        alt="img"
         height="190"
-        image={product.thumbnail.toString()}
+        image={product.imageUrl.toString()}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {product.title.length > 16
-            ? product.title.slice(0, 16)
-            : product.title}
+          {product.name.length > 16
+            ? product.name.slice(0, 16)
+            : product.name}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {product.description.length > 45

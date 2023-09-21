@@ -47,7 +47,6 @@ export const ProductCard: React.FC<IProductCard> = ({ data }) => {
       mutateCartItem({productId, userId});
     }
   };
-
   return (
     <Grid item lg={3.5} md={4.5} sm={8} xs={10} className={`card-container`}>
       <Card sx={{ maxWidth: 345}} className="product-card">
@@ -56,18 +55,18 @@ export const ProductCard: React.FC<IProductCard> = ({ data }) => {
           <CardMedia
             component="img"
             height="140"
-            image={data.thumbnail}
+            image={data?.imageUrl}
             alt="img"
           />
             <Typography gutterBottom variant="h5" component="div">
-              {data.title.length>30?data.title.slice(0,30)+"...":data.title}
+              {data.name?.length>30?data.name.slice(0,30)+"...":data.name}
             </Typography>
             <Typography className="card-description" variant="body2" color="text.secondary">
             {data.description.length > 45
             ? data.description.slice(0, 45) + "..."
             : data.description}
             </Typography>
-            <Typography>{data.price} $</Typography>
+            <Typography>{data.salePrice} $</Typography>
           </CardContent>
         </CardActionArea>
         <CardActions sx={{display:"flex", flexDirection:"column", width:"100%"}}>

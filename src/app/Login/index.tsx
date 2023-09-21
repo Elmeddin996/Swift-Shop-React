@@ -71,7 +71,7 @@ export const Login: React.FC = () => {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
+      <Grid container component="main" sx={{ height: "auto" }}>
         <CssBaseline />
         <Grid
           item

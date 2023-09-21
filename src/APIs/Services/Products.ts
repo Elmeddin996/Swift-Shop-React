@@ -2,14 +2,17 @@ import { HttpClient } from "../HTTPClients";
 
 export class ProductService extends HttpClient {
   constructor() {
-    super(`http://localhost:3001`);
+    super(`https://localhost:7267/api`);
   }
 
   async getProductList(){
-    return await this.get('products')
+    const token=localStorage.getItem("token")
+    return await this.get('Products/all',{headers: {
+      Authorization: `Bearer  ${token}`
+    }})
   }
 
   async getProductById(id:string){
-    return await this.getById('product',id)
+    return await this.getById('Products',id)
   }
 }

@@ -6,16 +6,17 @@ import { PriceFilterRange } from "../components/PriceFilterRange";
 import { SearchProduct } from "../components/SearchProduct";
 
 export const ShopPage = () => {
-  
   return (
     <div>
       <SideBar />
-      <div className="search-filter-container">
-        <SearchProduct />
-        <PriceFilterRange />
-      </div>
-      <div className="product-container">
-        <ProductList />
+      <div className="container">
+        <div className="search-filter-container">
+          <SearchProduct />
+          <PriceFilterRange />
+        </div>
+        <div className="product-container">
+          <ProductList />
+        </div>
       </div>
     </div>
   );

@@ -17,6 +17,7 @@
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@types/react-router-dom": "^5.3.3",
+    "@types/yup": "^0.32.0",
     "axios": "^1.4.0",
     "better-react-carousel": "^1.1.2",
     "formik": "^2.4.3",

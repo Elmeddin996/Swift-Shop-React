@@ -7,16 +7,17 @@ import './style.scss'
 
 export const Home: React.FC = () => {
   const { productList } = useProductContext();
-  
+
   const discountedProduct: IProduct[] = productList?.data.filter(
-    (product:IProduct) => product.discountPercentage > 0
+    (product:IProduct) => product.discountPercent > 0
   );
   const appleProduct: IProduct[] = productList?.data.filter(
-    (product:IProduct) => product.brand === "Apple"
+    (product:IProduct) => product.brand.name === "Apple"
   );
   const samsungProduct: IProduct[] = productList?.data.filter(
-    (product:IProduct) => product.brand === "Samsung"
+    (product:IProduct) => product.brand.name === "Samsung"
   );
+
   return (
     <div className="home-page">
       {/* Main Slider */}

@@ -16,7 +16,7 @@ export const EmptyShoppingCart =()=>{
       <div className="image-container">
         <img
           className="rounded-image"
-          src={siteDatas?.data.emptyCartImgUrl}
+          src={siteDatas?.data.emptyBasketImageLink}
           alt="emptyCart"
         />
       </div>

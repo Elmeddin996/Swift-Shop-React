@@ -30,9 +30,9 @@ export const Footer = () => {
     >
       <div className="footer-left">
         <div className="logo">
-          <img src={siteDatas?.data.logoImgUrl} alt="Logo" />
+          <img src={siteDatas?.data.logoImageLink} alt="Logo" />
           <Typography className="logo-text">
-            {siteDatas?.data.companyName}
+            {siteDatas?.data.logoText}
           </Typography>
         </div>
 
@@ -48,13 +48,13 @@ export const Footer = () => {
           <Link to={ROUTES.CONTACT_US}>Contact</Link>
         </p>
 
-        <p className="footer-company-name">Swift Shop © 2010</p>
+        <p className="footer-company-name">{siteDatas?.data.companyName} © 2010</p>
       </div>
 
       <div className="footer-center">
         <div>
           <i className="fa fa-map-marker"></i>
-          <p>{siteDatas?.data.adress}</p>
+          <p>{siteDatas?.data.address}</p>
         </div>
 
         <div>
@@ -72,21 +72,16 @@ export const Footer = () => {
 
       <div className="footer-right">
        <p> <Link to={ROUTES.ABOUT}>About the company</Link></p>
-        <p className="footer-company-about">
-          Swift Shop is a leading electronic sales platform that has been
-          serving customers since its inception in 2010. Our journey began in
-          the vibrant city of Baku, Azerbaijan, and over the years, we've grown
-          into a trusted name in the world of e-commerce.
-        </p>
+        <p className="footer-company-about">{siteDatas?.data.aboutCompany}</p>
 
         <div className="footer-icons">
-          <Link to={siteDatas?.data.facebook}>
+          <Link to={siteDatas?.data.facebookLink}>
             <FacebookIcon />
           </Link>
-          <Link to={siteDatas?.data.instagram}>
+          <Link to={siteDatas?.data.instagramLink}>
             <InstagramIcon />
           </Link>
-          <Link to={siteDatas?.data.linkedin}>
+          <Link to={siteDatas?.data.linkedinLink}>
             <LinkedInIcon />
           </Link>
           <Link to={siteDatas?.data.whatsappLink}>

@@ -2,11 +2,14 @@ import { HttpClient } from "../HTTPClients";
 
 export class CartItemService extends HttpClient {
   constructor() {
-    super(`http://localhost:3001`);
+    super(`https://localhost:7267/api`);
   }
 
   async getCartItems(){
-    return await this.get('basket-items')
+    const token=localStorage.getItem("token")
+    return await this.get('BasketItems/all',{headers: {
+      Authorization: `Bearer  ${token}`
+    }})
   }
 
   async addCartItem(body: any){

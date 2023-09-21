@@ -2,11 +2,14 @@ import { HttpClient } from "../HTTPClients";
 
 export class BrandService extends HttpClient {
   constructor() {
-    super(`http://localhost:3001`);
+    super(`https://localhost:7267/api`);
   }
 
   async getBrandList(){
-    return await this.get('brands')
+   const token=localStorage.getItem("token")
+    return await this.get('Brands/all',{headers: {
+      Authorization: `Bearer  ${token}`
+    }})
   }
 
 }
