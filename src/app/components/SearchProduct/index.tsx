@@ -17,7 +17,7 @@ React.useEffect(() => {
 
   const handleSearchInput = (value: string) => {
     const filteredProducts = productList?.data.filter((product: IProduct) =>
-    product.title.toLowerCase().includes(value.toLowerCase())
+    product.name.toLowerCase().includes(value.toLowerCase())
     );
     setInputValue(value)
     setFilteredProducts(filteredProducts);

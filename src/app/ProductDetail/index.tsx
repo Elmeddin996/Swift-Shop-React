@@ -52,20 +52,20 @@ export const ProductDetail: React.FC = () => {
             <img
               src={
                 currentImage === undefined
-                  ? product?.data.thumbnail
+                  ? product?.data.imageUrls[0]
                   : currentImage
               }
-              alt={product?.data.title}
+              alt={product?.data.name}
             />
           </div>
           <div className="product-images">
             <Carousel cols={3} rows={1} gap={1} loop>
-              {product?.data.images.map((img: string, index: number) => {
+              {product?.data.imageUrls.map((img: string, index: number) => {
                 return (
                   <Carousel.Item key={index}>
                     <img
                       src={img}
-                      alt={product?.data.title}
+                      alt={product?.data.name}
                       onClick={() => setCurrentImage(img)}
                     />
                   </Carousel.Item>
@@ -76,7 +76,7 @@ export const ProductDetail: React.FC = () => {
         </div>
         <div className="product-info">
           <Typography variant="h1" className="product-name">
-            {product?.data.title}
+            {product?.data.name}
           </Typography>
           <Rating
             name="read-only"
@@ -86,12 +86,12 @@ export const ProductDetail: React.FC = () => {
             readOnly
           />
           <Typography variant="body1" className="product-category">
-            <span>Category:</span> {product?.data.category}
+            <span>Category:</span> {product?.data.category.name}
           </Typography>
           <Divider />
 
           <Typography variant="h6" className="product-brand">
-            <span>Brand:</span> {product?.data.brand}
+            <span>Brand:</span> {product?.data.brand.name}
           </Typography>
           <Divider />
           <Typography variant="body1" className="description">
@@ -99,20 +99,20 @@ export const ProductDetail: React.FC = () => {
           </Typography>
           <Typography
             className={
-              product?.data.discountPercentage > 0
+              product?.data.discountPercent > 0
                 ? "product-price-disc"
                 : "product-price"
             }
           >
-            Price:{product?.data.price.toFixed(2)}$
+            Price:{product?.data.salePrice.toFixed(2)}$
           </Typography>
           <Divider />
-          {product?.data.discountPercentage > 0 && (
+          {product?.data.discountPercent > 0 && (
             <Typography className="discounted-price">
               Discounted Price:
               {(
-                product?.data.price -
-                (product?.data.price * product?.data.discountPercentage) / 100
+                product?.data.salePrice -
+                (product?.data.salePrice * product?.data.discountPercent) / 100
               ).toFixed(2)}
               $
             </Typography>

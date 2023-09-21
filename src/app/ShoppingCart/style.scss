@@ -18,8 +18,7 @@
     text-align: center;
     align-items: center;
     @media (max-width: 600px) {
-    font-size: 1rem;
-
+      font-size: 1rem;
     }
   }
 
@@ -33,7 +32,24 @@
       width: 100%;
       display: flex;
       font-weight: bolder;
-       justify-content: space-between;
+      justify-content: space-between;
+      height: 40px;
+
+      .left-side {
+        display: flex;
+        align-items: center;
+        width: 20%;
+        justify-content: space-around;
+      }
+      .order-btn {
+        background-color: black;
+        color: white;
+      }
+      .order-btn:hover {
+        background-color: white;
+        color: black;
+        border: 1px solid black;
+      }
     }
   }
 

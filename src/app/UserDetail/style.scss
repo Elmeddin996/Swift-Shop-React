@@ -1,10 +1,70 @@
-.profile-container{
-    width: 60%;
-    height: 70vh;
-    background-color: white;
-    margin: 0 auto;
+.profile-container {
+  width: 60%;
+  height: auto;
+  background-color: white;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 100px;
+  @media (max-width: 500px) {
+    width: 90%;
+  }
+
+  .title {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 100px;
+    font-size: 20px;
+  }
+  .data-container {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+  }
+
+  .user-data {
+    width: 60%;
+    min-height: 90%;
+    @media (max-width: 900px) {
+      width: 90%;
+    }
+    .full-width {
+      width: 94%;
+      margin: 10px;
+    }
+    .half-width {
+      width: 45%;
+      margin: 10px;
+      @media (max-width: 1100px) {
+        width: 94%;
+      }
+    }
+
+    .flex-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      @media (max-width: 900px) {
+        flex-direction: column;
+      }
+    }
+
+    .save-changes-btn {
+      height: 45px;
+      width: 94%;
+      margin: 10px;
+      background-color: black;
+      color: white;
+    }
+    .save-changes-btn:hover {
+      background-color: white;
+      color: black;
+      border: 1px solid black;
+    }
+  }
+
+  .link{
+    font-size: x-large;
+  }
 }

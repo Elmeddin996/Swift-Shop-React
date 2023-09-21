@@ -1,29 +1,41 @@
 export interface IProduct {
   id: string;
-  title: string;
+  name: string;
   description: string;
-  price: number;
-  discountPercentage: number;
+  salePrice: number;
+  discountPercent: number;
   rating?: number;
   stock?: number;
-  brand: string;
-  category: string;
-  thumbnail: string;
-  images?: [string];
+  brand: {
+    id:number;
+    name:string;
+  };
+  category:{
+    id:number;
+    name:string;
+  };
+  imageUrl: string;
+  imageUrls?: [string];
 }
 export interface ICartProduct {
   id: string;
-  title: string;
+  name: string;
   count:number;
   description: string;
-  price: number;
-  discountPercentage: number;
+  salePrice: number;
+  discountPercent: number;
   rating?: number;
   stock?: number;
-  brand: string;
-  category: string;
-  thumbnail: string;
-  images?: [string];
+  brand: {
+    id:number;
+    name:string;
+  };
+  category:{
+    id:number;
+    name:string;
+  };
+  imageUrl: string;
+  imageUrls?: [string];
 }
 
 export interface ICategory {
@@ -66,8 +78,8 @@ export interface IUserData {
   username: string;
   fullName: string;
   email: string;
-  password: string;
-  confirmPassword: string;
+  currentPassword: string;
+  confirmPassword?: string;
   address: string;
   phone: string;
 }

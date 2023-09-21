@@ -10,21 +10,15 @@ export const LogoutIcon = () => {
   const { authService } = useService();
   const dispatch = useDispatch();
 
-  const { mutateAsync: mutateLogout } = useMutation((userId: string) =>
-  authService.logout(userId),
+  const { mutateAsync: mutateLogout } = useMutation(() =>
+  authService.logout(),
   {
     onSuccess:()=>{dispatch(logout())}
   }
   );
-  const handleLogout = () => {
-    const userId=localStorage.getItem("userId")
-   if (userId) {
-    mutateLogout(userId)
-   }
-  };
 
   return (
-    <Button onClick={handleLogout} color="inherit" sx={{ marginLeft: "10px" }}>
+    <Button onClick={()=>mutateLogout()} color="inherit" sx={{ marginLeft: "10px" }}>
       <LogoutIconn fontSize="large" />
       Logout
     </Button>

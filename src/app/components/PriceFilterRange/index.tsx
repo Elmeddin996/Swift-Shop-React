@@ -29,7 +29,7 @@ export const PriceFilterRange: React.FC = () => {
   }, [selectedFilterValue, minProductPrice, maxProductPrice]);
 
   React.useEffect(() => {
-    const prices = productList?.data.map((product: IProduct) => product.price);
+    const prices = productList?.data.map((product: IProduct) => product.salePrice);
     if (prices?.length > 0) {
       setMinProductPrice(Math.min(...prices));
       setMaxProductPrice(Math.max(...prices));
@@ -40,7 +40,7 @@ export const PriceFilterRange: React.FC = () => {
     setRangeValue(newValue as number[]);
     const filteredProducts = productList?.data.filter(
       (product: IProduct) =>
-        product.price >= rangeValue[0] && product.price <= rangeValue[1]
+        product.salePrice >= rangeValue[0] && product.salePrice <= rangeValue[1]
     );
     setFilteredProducts(filteredProducts);
     setSelectedFilterValue("Range");

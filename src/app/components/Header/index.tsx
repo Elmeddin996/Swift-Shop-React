@@ -124,12 +124,12 @@ export const Header: React.FC = () => {
             >
               <img
                 className="img-sm-logo"
-                src={siteDatas?.data.logoImgUrl}
+                src={siteDatas?.data.logoImageLink}
                 alt="logo"
               />
               <Font family="Cormorant">
                 <Text family="Cormorant" style={{ fontSize: 25 }}>
-                  SwiftShop
+                  {siteDatas?.data.logoText}
                 </Text>
               </Font>
             </Grid>
@@ -155,12 +155,12 @@ export const Header: React.FC = () => {
             >
               <img
                 className="img-sm-logo"
-                src={siteDatas?.data.logoImgUrl}
+                src={siteDatas?.data.logoImageLink}
                 alt=""
               />
               <Font family="Cormorant">
                 <Text family="Cormorant" style={{ fontSize: 20 }}>
-                  SwiftShop
+                  {siteDatas?.data.logoText}
                 </Text>
               </Font>
             </Grid>

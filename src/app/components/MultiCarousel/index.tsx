@@ -48,7 +48,7 @@ export const MultiCarousel: React.FC<IMultiCarouselProps> = ({
               borderRadius:"40%"
             }}
           >
-            {discounted? "Discounted": products[0].brand} Products
+            {discounted? "Discounted": products[0]?.brand.name} Products
           </Typography>
           <Carousel
             swipeable={true}

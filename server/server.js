@@ -36,7 +36,7 @@ app.post("/login", (req, res) => {
     const token = createToken();
     return res.json({
       token: token,
-      userId: user._id,
+      userId: user.id,
     });
   }
   res.sendStatus(400);
@@ -46,13 +46,54 @@ app.post("/logout", (_, res) => {
   res.sendStatus(200);
 });
 
+
+
+app.get("/user/:id", (req, res) => {
+const user = DUserData.find((u)=>u.id===req.params.id)
+if(user) res.send(user)
+else res.status(404)
+});
+
+
+app.post('/update-user', (req, res) => {
+  const email=req.body.email;
+  const updatedUserData = req.body;
+
+  const user = DUserData.find((user) => user.email === email);
+  if (updatedUserData.currentPassword === user.password) {
+
+    user.fullName = updatedUserData.fullName;
+    user.username = updatedUserData.username;
+    user.email = updatedUserData.email;
+    user.phone = updatedUserData.phone;
+    user.address = updatedUserData.address;
+
+    return res.status(200);
+  } else {
+    return res.status(404)
+  }
+});
+
+app.put('/password/:id',(req,res)=>{
+  const id = req.params.id;
+  const user = DUserData.find((user) => user.id === id);
+  if (!user) {
+    return res.status(404)
+  }
+  if (req.body.currentPassword === user.password) {
+    user.password=req.body.newPassword;
+    return res.status(200)
+  }else{
+    return res.status(400)
+  }
+})
+
 app.get("/products", (_, res) => {
   res.json(DProductList);
 });
 
 app.get("/product/:id", (req, res) => {
   const product = DProductList.find((prod) => prod.id === req.params.id);
-  console.log(product);
   if (product) res.send(product);
   else res.status(404).send("Product not found");
 });

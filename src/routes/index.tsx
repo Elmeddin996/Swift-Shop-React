@@ -16,6 +16,8 @@ import { ShoppingCart } from "../app/ShoppingCart";
 import { ShoppingCartProvider } from "../context/ShoppingCartContext";
 import { Contact } from "../app/Contact";
 import { About } from "../app/About";
+import { OrderPage } from "../app/Order";
+import { UpdatePassword } from "../app/UpdatePassword";
 
 const ShopPage = React.lazy(() =>
   import("../app/Shop").then(({ ShopPage }) => ({
@@ -93,6 +95,15 @@ export const AppRoutes: React.FC = () => {
         />
         <Route path={ROUTES.CONTACT_US} element={<Contact />} />
         <Route path={ROUTES.ABOUT} element={<About />} />
+        <Route path={ROUTES.ORDER} element={<OrderPage />} />
+        <Route
+          path={ROUTES.USER.UPDATE_PASSWORD}
+          element={
+            <AuthProvider>
+              <UpdatePassword />
+            </AuthProvider>
+          }
+        />
 
         <Route path="*" element={<ErrorPage />} />
       </Routes>

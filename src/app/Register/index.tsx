@@ -5,6 +5,8 @@ import { TextField, Button, Container, Typography } from "@mui/material";
 import { useService } from "../../APIs/Services";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/consts";
+import './style.scss'
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 
 const validationSchema = yup.object({
   username: yup.string().required("User name is required!!!"),
@@ -31,7 +33,7 @@ export const Register: React.FC = () => {
     initialValues: {
       username: "",
       email: "",
-      password: "",
+      currentPassword: "",
       confirmPassword: "",
       fullName: "",
       address: "",
@@ -45,8 +47,9 @@ export const Register: React.FC = () => {
   });
 
   return (
-    <Container maxWidth="sm" sx={{bgcolor:"#c5d5cb"}}>
-      <Typography variant="h4" align="center" gutterBottom>
+    <Container className="register-container" maxWidth="sm" >
+      <Typography className="title">
+      <HowToRegIcon fontSize="large"/>
         Register
       </Typography>
       <form onSubmit={formik.handleSubmit}>
@@ -92,16 +95,16 @@ export const Register: React.FC = () => {
           type="password"
           variant="outlined"
           margin="normal"
-          name="password"
-          value={formik.values.password}
+          name="currentPassword"
+          value={formik.values.currentPassword}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
+          error={formik.touched.currentPassword && Boolean(formik.errors.currentPassword)}
+          helperText={formik.touched.currentPassword && formik.errors.currentPassword}
         />
         <TextField
           fullWidth
-          label="Parolayı Onayla"
+          label="Confirm Password"
           type="password"
           variant="outlined"
           margin="normal"

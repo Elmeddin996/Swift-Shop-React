@@ -1,11 +1,22 @@
 import React from "react";
-import "./style.scss";
-import { InfinitySpin } from "react-loader-spinner";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export const Loading = () => {
+  const [open, setOpen] = React.useState(true);
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
-    <div className="loading-spin">
-      <InfinitySpin width="200"  color="#4fa94d" />
+    <div>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={open}
+        onClick={handleClose}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 };
