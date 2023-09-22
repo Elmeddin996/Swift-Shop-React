@@ -8,6 +8,8 @@ import { useAuthentication } from "../../hooks";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/consts";
 import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { logout } from "../../features/userLogined/loginSlice";
 
 const validationSchema = yup.object({
   password: yup
@@ -27,6 +29,8 @@ const validationSchema = yup.object({
 export const UpdatePassword = () => {
   const { mutatePassword } = useAuthentication();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
 
   const formik = useFormik({
     initialValues: {
@@ -36,7 +40,9 @@ export const UpdatePassword = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      mutatePassword(values).then(() => navigate(ROUTES.HOME))
+      mutatePassword(values)
+      .then(()=>dispatch(logout()))
+      .then(() => navigate(ROUTES.HOME))
       .then(handleShowAlert);
     },
   });

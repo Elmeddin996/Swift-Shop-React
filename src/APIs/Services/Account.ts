@@ -10,7 +10,13 @@ export class AccountService extends HttpClient {
   }
 
   async resetPasswordChange(body:any){
-    console.log(body);
     return await this.post(`ResetPasswordChange`,body)
+   }
+
+   async sendConfirmEmailToken(){
+    const token=localStorage.getItem("token")
+     return await this.postWithToken(`SendConfirmEmailToken`,{headers: {
+      Authorization: `Bearer  ${token}`
+    }})
    }
 }

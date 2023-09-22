@@ -102,13 +102,22 @@ export const AppRoutes: React.FC = () => {
           path={ROUTES.USER.UPDATE_PASSWORD}
           element={
             <AuthProvider>
-              <UpdatePassword />
+              <ProtectedRouterProfil>
+                <UpdatePassword />
+              </ProtectedRouterProfil>
             </AuthProvider>
           }
         />
-        <Route path={ROUTES.USER.FORGOT_PASSWORD} element={<ForgotPassword />} />
-        <Route path={ROUTES.USER.RESET_PASSWORD} element={<ResetPassword />} />
-
+        <Route
+          path={ROUTES.USER.FORGOT_PASSWORD}
+          element={<ForgotPassword />}
+        />
+        <Route
+          path={ROUTES.USER.RESET_PASSWORD}
+          element={
+              <ResetPassword />
+          }
+        />
 
         <Route path="*" element={<ErrorPage />} />
       </Routes>

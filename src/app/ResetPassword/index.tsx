@@ -9,6 +9,8 @@ import { ROUTES } from "../../routes/consts";
 import Swal from "sweetalert2";
 import { useMutation } from "react-query";
 import { useService } from "../../APIs/Services";
+import { useDispatch } from "react-redux";
+import { logout } from "../../features/userLogined/loginSlice";
 
 const validationSchema = yup.object({
   password: yup
@@ -26,11 +28,13 @@ export const ResetPassword: React.FC = () => {
   const { accountService } = useService();
   const [token, setToken] = React.useState("");
   const [email, setEmail] = React.useState("");
+  const dispatch = useDispatch();
+
 
   const { mutateAsync: mutateResetPassword } = useMutation(
     (reqBody: any) => accountService.resetPasswordChange(reqBody),
     {
-      onError: () => console.log("error"),
+      onError: () => console.log("error")
     }
   );
 
@@ -48,6 +52,7 @@ export const ResetPassword: React.FC = () => {
         email: email
       };
       mutateResetPassword(requestBody)
+        .then(()=>dispatch(logout()))
         .then(() => navigate(ROUTES.HOME))
         .then(handleShowAlert);
     },
@@ -78,7 +83,7 @@ export const ResetPassword: React.FC = () => {
       <form onSubmit={formik.handleSubmit}>
         <Typography className="title" variant="h4" textAlign="center">
           <SyncLockIcon fontSize="large" />
-          Password Change
+          Restore Password
         </Typography>
 
         <TextField

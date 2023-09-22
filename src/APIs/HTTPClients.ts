@@ -20,7 +20,7 @@ export class HttpClient{
     async post(endpoint:string,body:any){
         return await axios.post(`${this.baseUrl}/${endpoint}`,body);
     }
-    async postWithToken(endpoint:string,body:any,header:any){
+    async postWithToken(endpoint:string,header:any,body?:any){
         return await axios.post(`${this.baseUrl}/${endpoint}`,body,header);
     }
     
