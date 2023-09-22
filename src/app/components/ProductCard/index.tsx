@@ -29,7 +29,7 @@ export const ProductCard: React.FC<IProductCard> = ({ data }) => {
     navigate(`${ROUTES.PRODUCT.DETAIL}/${data.id}`);
   };
 
-  const addToCart = (productId: string) => {
+  const addToCart = (productId: number) => {
     if (!isAuthenticated) {
       const existingItem = localCart?.find(
         (item: IShoppingCartItem) => item.productId === productId

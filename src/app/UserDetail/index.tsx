@@ -25,14 +25,14 @@ import { Link } from "react-router-dom";
 import { ROUTES } from "../../routes/consts";
 
 const validationSchema = yup.object({
-  username: yup.string().required("User name is required!!!"),
+  userName: yup.string().required("User name is required!!!"),
   email: yup
     .string()
     .email("Enter a valid email!!!")
     .required("Email is required!!!"),
-  currentPassword: yup
+  password: yup
     .string()
-    .min(6, "Password must be at least 6 characters!!!")
+    .min(8, "Password must be at least 8 characters!!!")
     .required("Password is required!!!"),
   fullName: yup.string().required("Enter your first and last name!!!"),
 });
@@ -41,11 +41,10 @@ const validationSchema = yup.object({
 export const UserDetail: React.FC = () => {
   const { authService } = useService();
   const [showPassword, setShowPassword] = React.useState(false);
-  const id = localStorage.getItem("userId");
   const [result, setResult] = React.useState<string>("");
 
-  const { data: userData } = useQuery([EQueryKeys.GET_USER_DATA], () =>
-    id ? authService.getUserById(id) : null
+  const { data: userData} = useQuery([EQueryKeys.GET_USER_DATA], () =>
+    authService.getUserData()
   );
 
   const { mutateAsync: mutateUserData } = useMutation(
@@ -57,12 +56,12 @@ export const UserDetail: React.FC = () => {
 
   const formik = useFormik<IUserData>({
     initialValues: {
-      username: userData?.data?.userName,
+      userName: userData?.data?.userName,
       email: userData?.data?.email,
       fullName: userData?.data?.fullName,
       address: userData?.data?.address,
       phone: userData?.data?.phone,
-      currentPassword: "",
+      password: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -91,12 +90,12 @@ export const UserDetail: React.FC = () => {
           className="half-width"
           label="Username"
           variant="outlined"
-          name="username"
-          value={formik.values.username}
+          name="userName"
+          value={formik.values.userName}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          error={formik.touched.username && Boolean(formik.errors.username)}
-          helperText={formik.touched.username && formik.errors.username}
+          error={formik.touched.userName && Boolean(formik.errors.userName)}
+          helperText={formik.touched.userName && formik.errors.userName}
         />
         <Box className="flex-wrap">
           <TextField
@@ -138,13 +137,13 @@ export const UserDetail: React.FC = () => {
           </InputLabel>
           <Input
             className="full-width"
-            name="currentPassword"
-            value={formik.values.currentPassword}
+            name="password"
+            value={formik.values.password}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={
-              formik.touched.currentPassword &&
-              Boolean(formik.errors.currentPassword)
+              formik.touched.password &&
+              Boolean(formik.errors.password)
             }
             id="standard-adornment-password"
             type={showPassword ? "text" : "password"}
@@ -161,8 +160,8 @@ export const UserDetail: React.FC = () => {
           />
 
           <FormHelperText sx={{ color: "red" }}>
-            {formik.touched.currentPassword && formik.errors.currentPassword
-              ? formik.errors.currentPassword
+            {formik.touched.password && formik.errors.password
+              ? formik.errors.password
               : ""}
           </FormHelperText>
         </FormControl>

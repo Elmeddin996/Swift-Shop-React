@@ -6,10 +6,7 @@ export class BrandService extends HttpClient {
   }
 
   async getBrandList(){
-   const token=localStorage.getItem("token")
-    return await this.get('Brands/all',{headers: {
-      Authorization: `Bearer  ${token}`
-    }})
+    return await this.get('Brands/all')
   }
 
 }

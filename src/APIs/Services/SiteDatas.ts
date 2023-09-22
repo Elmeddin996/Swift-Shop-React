@@ -6,9 +6,6 @@ export class SiteDatasService extends HttpClient {
   }
 
   async getSiteDatas(){
-    const token=localStorage.getItem("token")
-    return await this.get('StoreDatas/Get',{headers: {
-      Authorization: `Bearer  ${token}`
-    }})
+    return await this.get('StoreDatas/Get')
   }
 }

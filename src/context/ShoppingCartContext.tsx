@@ -41,7 +41,7 @@ export const ShoppingCartProvider: React.FC<any> = ({ children }: any) => {
   );
 
   const { mutateAsync: mutateRemoveItem } = useMutation(
-    (productId:string) => cartItemService.removeCartItem(productId),
+    (productId:number) => cartItemService.removeCartItem(productId),
     {
       onSuccess: () => {
         queryClient.invalidateQueries([EQueryKeys.GET_CART_ITEMS]);
