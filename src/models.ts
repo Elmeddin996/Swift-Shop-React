@@ -82,4 +82,5 @@ export interface IUserData {
   confirmPassword?: string;
   address: string;
   phone: string;
+  emailConfirm?:boolean
 }
