@@ -37,13 +37,16 @@ export class AuthService extends HttpClient {
 
   async userDataUpdate(body:IUserData){
     const token=localStorage.getItem("token")
-    return await this.put("UserEdit", body,{headers: {
+    return await this.putWithToken("UserEdit", body,{headers: {
       Authorization: `Bearer  ${token}`
     }})
   }
 
-  async updatePassword(id:string, body:any){
-    return await this.put("password",id,body)
+  async updatePassword( body:any){
+    const token=localStorage.getItem("token")
+    return await this.putWithToken("ChangePassword",body,{headers: {
+      Authorization: `Bearer  ${token}`
+    }})
   }
 }
  

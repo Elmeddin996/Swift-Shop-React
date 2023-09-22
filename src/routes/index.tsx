@@ -18,6 +18,8 @@ import { Contact } from "../app/Contact";
 import { About } from "../app/About";
 import { OrderPage } from "../app/Order";
 import { UpdatePassword } from "../app/UpdatePassword";
+import { ForgotPassword } from "../app/ForgotPassword";
+import { ResetPassword } from "../app/ResetPassword";
 
 const ShopPage = React.lazy(() =>
   import("../app/Shop").then(({ ShopPage }) => ({
@@ -104,6 +106,9 @@ export const AppRoutes: React.FC = () => {
             </AuthProvider>
           }
         />
+        <Route path={ROUTES.USER.FORGOT_PASSWORD} element={<ForgotPassword />} />
+        <Route path={ROUTES.USER.RESET_PASSWORD} element={<ResetPassword />} />
+
 
         <Route path="*" element={<ErrorPage />} />
       </Routes>

@@ -1,3 +1,4 @@
+import { AccountService } from "./Account";
 import { AuthService } from "./Auth";
 import { BrandService } from "./Brands";
 import { CartItemService } from "./CartItems";
@@ -9,6 +10,7 @@ export const useService =()=>{
     const services={
         productService: new ProductService(),
         authService: new  AuthService(),
+        accountService: new  AccountService(),
         siteDatasService: new SiteDatasService(),
         categoriesService: new CategoryService(),
         brandsService: new BrandService(),

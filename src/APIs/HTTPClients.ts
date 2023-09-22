@@ -24,8 +24,12 @@ export class HttpClient{
         return await axios.post(`${this.baseUrl}/${endpoint}`,body,header);
     }
     
-    async put(endpoint:string,body:any,header:any){
+    async putWithToken(endpoint:string,body:any,header:any){
         return await axios.put(`${this.baseUrl}/${endpoint}`,body,header);
+    }
+
+    async put(endpoint:string,body:any){
+        return await axios.put(`${this.baseUrl}/${endpoint}`,body);
     }
 
     async putById(endpoint:string,id:string, body:any){

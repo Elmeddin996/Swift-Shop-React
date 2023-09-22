@@ -1,6 +1,6 @@
 import React from "react";
 import "./style.scss";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { EQueryKeys } from "../../enums";
 import { useService } from "../../APIs/Services";
 import { useFormik } from "formik";
@@ -21,27 +21,30 @@ import {
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { IUserData } from "../../models";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/consts";
+import Swal from "sweetalert2";
 
 const validationSchema = yup.object({
-  userName: yup.string().required("User name is required!!!"),
+  userName: yup.string(),
   email: yup
     .string()
-    .email("Enter a valid email!!!")
-    .required("Email is required!!!"),
+    .email("Enter a valid email!!!"),
   password: yup
     .string()
     .min(8, "Password must be at least 8 characters!!!")
     .required("Password is required!!!"),
-  fullName: yup.string().required("Enter your first and last name!!!"),
+  fullName: yup.string()
 });
 
 
 export const UserDetail: React.FC = () => {
   const { authService } = useService();
+  const navigate= useNavigate();
   const [showPassword, setShowPassword] = React.useState(false);
   const [result, setResult] = React.useState<string>("");
+  const queryClient = useQueryClient();
+
 
   const { data: userData} = useQuery([EQueryKeys.GET_USER_DATA], () =>
     authService.getUserData()
@@ -51,24 +54,37 @@ export const UserDetail: React.FC = () => {
     (RequestBody: IUserData) =>authService.userDataUpdate(RequestBody),
     {
       onError: () => setResult(`error`),
+      onSuccess: () => {
+        queryClient.invalidateQueries([EQueryKeys.GET_USER_DATA]);
+      },
     }
   );
 
   const formik = useFormik<IUserData>({
     initialValues: {
-      userName: userData?.data?.userName,
-      email: userData?.data?.email,
-      fullName: userData?.data?.fullName,
-      address: userData?.data?.address,
-      phone: userData?.data?.phone,
+      userName: userData?.data?.userName||"",
+      email: userData?.data?.email||"",
+      fullName: userData?.data?.fullName||"",
+      address: userData?.data?.address||"",
+      phone: userData?.data?.phone||"",
       password: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       mutateUserData(values)
+      .then(()=>navigate(ROUTES.HOME))
+      .then(handleShowAlert)
     },
   });
-
+  const handleShowAlert = () => {
+    Swal.fire({
+      position: 'top-start',
+      icon: 'success',
+      title: 'Changed Successfully',
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  };
   return (
     <div className="profile-container">
       <Typography variant="h4">
@@ -166,8 +182,10 @@ export const UserDetail: React.FC = () => {
           </FormHelperText>
         </FormControl>
         {result && (
-          <Alert severity="error">Email or Password is incorrect</Alert>
+          <Alert severity="error">Password is incorrect</Alert>
         )}
+        <Link className="forgot-password-link" to={ROUTES.USER.FORGOT_PASSWORD}>Forgot password?</Link>
+
        
         <Button className="save-changes-btn" type="submit">
           Save Changes
@@ -175,7 +193,7 @@ export const UserDetail: React.FC = () => {
 
        
       </form>
-      <Link className="link" to={ROUTES.USER.UPDATE_PASSWORD}>Password Change</Link>
+      <Link className="link" to={ROUTES.USER.UPDATE_PASSWORD}>Change Password</Link>
     </div>
   );
 };
