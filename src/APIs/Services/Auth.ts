@@ -8,7 +8,7 @@ export class AuthService extends HttpClient {
 
   
   async register(body: IUserData){
-    return await this.post(`signup`, body)
+    return await this.post(`Register`, body)
   }
 
   async login(body: ILogin) {
@@ -20,7 +20,7 @@ export class AuthService extends HttpClient {
 
   async logout() {
    const token=localStorage.getItem("token")
-    return await this.get(`Logout`,{headers: {
+    return await this.getWithToken(`Logout`,{headers: {
       Authorization: `Bearer  ${token}`
     }}).then(()=>{
       localStorage.removeItem("token")
@@ -28,16 +28,25 @@ export class AuthService extends HttpClient {
     })
   }
 
-  async getUserById(id:string){
-    return await this.getById('user',id)
+  async getUserData(){
+    const token=localStorage.getItem("token")
+    return await this.getWithToken(`UserData`,{headers: {
+      Authorization: `Bearer  ${token}`
+    }})
   }
 
   async userDataUpdate(body:IUserData){
-    return await this.post("update-user", body)
+    const token=localStorage.getItem("token")
+    return await this.putWithToken("UserEdit", body,{headers: {
+      Authorization: `Bearer  ${token}`
+    }})
   }
 
-  async updatePassword(id:string, body:any){
-    return await this.put("password",id,body)
+  async updatePassword( body:any){
+    const token=localStorage.getItem("token")
+    return await this.putWithToken("ChangePassword",body,{headers: {
+      Authorization: `Bearer  ${token}`
+    }})
   }
 }
  

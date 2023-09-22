@@ -22,7 +22,7 @@ export const ShoppingCartItem: React.FC<ICartItem> = ({ product }) => {
     (state: RootState) => state.isLogined.isAuthenticated
   );
 
-  const handleReduce = (productId: string) => {
+  const handleReduce = (productId: number) => {
     if (!isAuthenticated) {
       const updatedCarts = localCart?.map((cartItem: IShoppingCartItem) => {
         if (cartItem.productId === productId && cartItem.count > 1) {
@@ -35,11 +35,12 @@ export const ShoppingCartItem: React.FC<ICartItem> = ({ product }) => {
       });
       setLocalCart(updatedCarts);
     } else {
-      mutateReduceCartItem({ productId });
+      const userId = localStorage.getItem("userId");
+      mutateReduceCartItem({productId,userId});
     }
   };
 
-  const handlePlus = (productId: string) => {
+  const handlePlus = (productId: number) => {
     if (!isAuthenticated) {
       const updatedCarts = localCart?.map((cartItem: IShoppingCartItem) => {
         if (cartItem.productId === productId) {
@@ -57,7 +58,7 @@ export const ShoppingCartItem: React.FC<ICartItem> = ({ product }) => {
     }
   };
 
-  const handleRemove = (productId: string) => {
+  const handleRemove = (productId: number) => {
     if (!isAuthenticated) {
       const updatedCarts = localCart?.filter(
         (cartItem: IShoppingCartItem) => cartItem.productId !== productId

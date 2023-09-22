@@ -1,0 +1,46 @@
+.update-password-container {
+    width: 60%;
+    height: auto;
+    background-color: white;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+    @media (max-width: 500px) {
+      width: 90%;
+    }
+  
+    .title {
+      @media (max-width: 600px) {
+        font-size: large;
+      }
+    }
+  
+    .full-width {
+      width: 94%;
+      margin: 10px;
+    }
+  
+    .save-changes-btn {
+      height: 45px;
+      width: 94%;
+      margin: 10px;
+      background-color: black;
+      color: white;
+    }
+    .save-changes-btn:hover {
+      background-color: white;
+      color: black;
+      border: 1px solid black;
+    }
+    .forgot-password-link{
+      padding-left: 12px;
+      color: black;
+    }
+    .forgot-password-link:hover{
+      color: purple;
+    }
+  }
+  
+  

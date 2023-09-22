@@ -4,52 +4,75 @@ import { Button, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import "./style.scss";
-import { useAuthentication } from "../../hooks";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/consts";
 import Swal from "sweetalert2";
+import { useMutation } from "react-query";
+import { useService } from "../../APIs/Services";
 
 const validationSchema = yup.object({
   password: yup
     .string()
-    .min(6, "Password must be at least 6 characters!!!")
-    .required("Password is required!!!"),
-  newPassword: yup
-    .string()
-    .min(6, "Password must be at least 6 characters!!!")
+    .min(8, "Password must be at least 8 characters!!!")
     .required("Password is required!!!"),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref("newPassword"), undefined], "Passwords do not match")
+    .oneOf([yup.ref("password"), undefined], "Passwords do not match")
     .required("Confirm password"),
 });
 
-export const UpdatePassword = () => {
-  const { mutatePassword } = useAuthentication();
+export const ResetPassword: React.FC = () => {
   const navigate = useNavigate();
+  const { accountService } = useService();
+  const [token, setToken] = React.useState("");
+  const [email, setEmail] = React.useState("");
+
+  const { mutateAsync: mutateResetPassword } = useMutation(
+    (reqBody: any) => accountService.resetPasswordChange(reqBody),
+    {
+      onError: () => console.log("error"),
+    }
+  );
 
   const formik = useFormik({
     initialValues: {
       password: "",
-      newPassword: "",
       confirmPassword: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      mutatePassword(values).then(() => navigate(ROUTES.HOME))
-      .then(handleShowAlert);
+      const requestBody = {
+        password: values.password,
+        confirmPassword: values.confirmPassword,
+        token: token,
+        email: email
+      };
+      mutateResetPassword(requestBody)
+        .then(() => navigate(ROUTES.HOME))
+        .then(handleShowAlert);
     },
   });
 
   const handleShowAlert = () => {
     Swal.fire({
-      position: 'top-start',
-      icon: 'success',
-      title: 'Password Changed Successfully',
+      position: "top-start",
+      icon: "success",
+      title: "Password Changed Successfully",
       showConfirmButton: false,
-      timer: 1500,
+      timer: 2000,
     });
   };
+
+  React.useEffect(() => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlSearchParams.entries());
+
+    const tokenParam = params.token || "";
+    const emailParam = params.email || "";
+
+    setToken(tokenParam);
+    setEmail(emailParam);
+  }, []);
   return (
     <div className="update-password-container">
       <form onSubmit={formik.handleSubmit}>
@@ -60,28 +83,14 @@ export const UpdatePassword = () => {
 
         <TextField
           className="full-width"
-          label="Password"
-          variant="outlined"
+          label="New Password"
           type="password"
+          variant="outlined"
           name="password"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={formik.touched.password && formik.errors.password}
-        />
-
-        <TextField
-          className="full-width"
-          label="New Password"
-          type="password"
-          variant="outlined"
-          name="newPassword"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={
-            formik.touched.newPassword && Boolean(formik.errors.newPassword)
-          }
-          helperText={formik.touched.newPassword && formik.errors.newPassword}
         />
         <TextField
           className="full-width"
@@ -99,9 +108,6 @@ export const UpdatePassword = () => {
             formik.touched.confirmPassword && formik.errors.confirmPassword
           }
         />
-        <Link className="forgot-password-link" to={ROUTES.USER.FORGOT_PASSWORD}>
-          Forgot password?
-        </Link>
 
         <Button className="save-changes-btn" type="submit">
           Save Changes

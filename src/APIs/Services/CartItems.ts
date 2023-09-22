@@ -7,20 +7,30 @@ export class CartItemService extends HttpClient {
 
   async getCartItems(){
     const token=localStorage.getItem("token")
-    return await this.get('BasketItems/all',{headers: {
+    return await this.getWithToken('BasketItems/all',{headers: {
       Authorization: `Bearer  ${token}`
     }})
   }
 
   async addCartItem(body: any){
-    return await this.post(`add-basket-item`, body)
+    console.log(body);
+    const token=localStorage.getItem("token")
+    return await this.postWithToken(`BasketItems/add`, body,{headers: {
+      Authorization: `Bearer  ${token}`
+    }})
   }
 
   async reduceCartItem(body: any){
-    return await this.post(`reduce-basket-item`, body)
+    const token=localStorage.getItem("token")
+    return await this.postWithToken(`BasketItems/reduce`, body,{headers: {
+      Authorization: `Bearer  ${token}`
+    }})
   }
 
-  async removeCartItem(productId:string){
-    return await this.delete(`remove-basket-item`,productId)
+  async removeCartItem(productId:number){
+    const token=localStorage.getItem("token")
+    return await this.delete(`BasketItems`,productId,{headers: {
+      Authorization: `Bearer  ${token}`
+    }})
   }
 }

@@ -6,10 +6,7 @@ export class CategoryService extends HttpClient {
   }
 
   async getCategoryList(){
-    const token=localStorage.getItem("token")
-    return await this.get('Categories/all',{headers: {
-      Authorization: `Bearer  ${token}`
-    }})
+    return await this.get('Categories/all')
   }
 
 }

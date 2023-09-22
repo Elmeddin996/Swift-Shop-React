@@ -2,46 +2,56 @@ import React from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { TextField, Button, Container, Typography } from "@mui/material";
-import { useService } from "../../APIs/Services";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/consts";
 import './style.scss'
 import HowToRegIcon from '@mui/icons-material/HowToReg';
+import { IUserData } from "../../models";
+import { useMutation } from "react-query";
+import { useService } from "../../APIs/Services";
 
 const validationSchema = yup.object({
-  username: yup.string().required("User name is required!!!"),
+  userName: yup.string().required("User name is required!!!"),
   email: yup
     .string()
     .email("Enter a valid email!!!")
     .required("Email is required!!!"),
-  password: yup
+    password: yup
     .string()
     .min(6, "Password must be at least 6 characters!!!")
     .required("Password is required!!!"),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref("password"), undefined], "Passwords do not match")
-    .required("Confirm password"),
+    .oneOf([yup.ref('password'), undefined], 'Passwords do not match')
+    .required('Confirm password is required'),
   fullName: yup.string().required("Enter your first and last name!!!"),
 });
 
 export const Register: React.FC = () => {
+  const navigate=useNavigate();
   const { authService } = useService();
-  const navigate=useNavigate()
+
+
+  const { mutateAsync: mutateRegister } = useMutation(
+    (reqBody: IUserData) => authService.register(reqBody),
+    {
+      onError: () => console.log("error"),
+    }
+  );
 
   const formik = useFormik({
     initialValues: {
-      username: "",
+      userName: "",
       email: "",
-      currentPassword: "",
+      password: "",
       confirmPassword: "",
       fullName: "",
       address: "",
       phone: "+994",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      authService.register(values)
+    onSubmit: (values:IUserData) => {
+      mutateRegister(values)
       navigate(ROUTES.USER.LOGIN)
     },
   });
@@ -70,12 +80,12 @@ export const Register: React.FC = () => {
           label="User Name"
           variant="outlined"
           margin="normal"
-          name="username"
-          value={formik.values.username}
+          name="userName"
+          value={formik.values.userName}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          error={formik.touched.username && Boolean(formik.errors.username)}
-          helperText={formik.touched.username && formik.errors.username}
+          error={formik.touched.userName && Boolean(formik.errors.userName)}
+          helperText={formik.touched.userName && formik.errors.userName}
         />
         <TextField
           fullWidth
@@ -95,12 +105,12 @@ export const Register: React.FC = () => {
           type="password"
           variant="outlined"
           margin="normal"
-          name="currentPassword"
-          value={formik.values.currentPassword}
+          name="password"
+          value={formik.values.password}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          error={formik.touched.currentPassword && Boolean(formik.errors.currentPassword)}
-          helperText={formik.touched.currentPassword && formik.errors.currentPassword}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
         />
         <TextField
           fullWidth

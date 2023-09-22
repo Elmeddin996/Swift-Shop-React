@@ -9,6 +9,7 @@ export const ROUTES = {
   USER: {
     LOGIN: "/login",
     REGISTER: "/register",
+    FORGOT_PASSWORD: "/forgot-password",
     RESET_PASSWORD: "/reset-password",
     DETAIL:"/profil",
     UPDATE_PASSWORD:"/update-password"

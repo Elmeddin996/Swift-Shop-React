@@ -25,7 +25,7 @@ export const ProductDetail: React.FC = () => {
 
   const [currentImage, setCurrentImage] = React.useState<string>();
 
-  const addToCart = (productId: string) => {
+  const addToCart = (productId: number) => {
     if (!isAuthenticated) {
       const existingItem = localCart?.find(
         (item: IShoppingCartItem) => item.productId === productId

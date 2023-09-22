@@ -20,6 +20,7 @@ import { login } from "../../features/userLogined/loginSlice";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Alert } from "@mui/material";
+import "./style.scss"
 
 const defaultTheme = createTheme();
 
@@ -167,10 +168,10 @@ export const Login: React.FC = () => {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link to={ROUTES.USER.RESET_PASSWORD}>Forgot password?</Link>
+                  <Link className="forgot-password-link" to={ROUTES.USER.FORGOT_PASSWORD}>Forgot password?</Link>
                 </Grid>
                 <Grid item>
-                  <Link to={ROUTES.USER.REGISTER}>
+                  <Link className="forgot-password-link" to={ROUTES.USER.REGISTER}>
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

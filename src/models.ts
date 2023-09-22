@@ -1,5 +1,5 @@
 export interface IProduct {
-  id: string;
+  id: number;
   name: string;
   description: string;
   salePrice: number;
@@ -18,7 +18,7 @@ export interface IProduct {
   imageUrls?: [string];
 }
 export interface ICartProduct {
-  id: string;
+  id: number;
   name: string;
   count:number;
   description: string;
@@ -46,7 +46,7 @@ export interface ICategory {
 
 export interface IShoppingCartItem{
   id?: string,
-  productId: string,
+  productId: number,
   userId?: string,
   count: number
 }
@@ -75,10 +75,10 @@ export interface ILogout{
 }
 
 export interface IUserData {
-  username: string;
+  userName: string;
   fullName: string;
   email: string;
-  currentPassword: string;
+  password: string;
   confirmPassword?: string;
   address: string;
   phone: string;
