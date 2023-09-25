@@ -11,12 +11,19 @@ export class AccountService extends HttpClient {
 
   async resetPasswordChange(body:any){
     return await this.post(`ResetPasswordChange`,body)
-   }
+  }
 
-   async sendConfirmEmailToken(){
+  async sendConfirmEmailToken(){
     const token=localStorage.getItem("token")
-     return await this.postWithToken(`SendConfirmEmailToken`,{headers: {
-      Authorization: `Bearer  ${token}`
+     return await this.getWithToken(`SendConfirmEmailToken`,{headers: {
+      Authorization: `Bearer ${token}`
     }})
-   }
+  }
+
+  async confirmEmail(body:any){
+    const token=localStorage.getItem("token")
+     return await this.postWithTokenBody(`confirmemail`, body,{headers: {
+      Authorization: `Bearer ${token}`
+    }})
+  }
 }

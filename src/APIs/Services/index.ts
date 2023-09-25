@@ -3,6 +3,7 @@ import { AuthService } from "./Auth";
 import { BrandService } from "./Brands";
 import { CartItemService } from "./CartItems";
 import { CategoryService } from "./Categories";
+import { OrderService } from "./Order";
 import { ProductService } from "./Products";
 import { SiteDatasService } from "./SiteDatas";
 
@@ -14,7 +15,8 @@ export const useService =()=>{
         siteDatasService: new SiteDatasService(),
         categoriesService: new CategoryService(),
         brandsService: new BrandService(),
-        cartItemService: new CartItemService()
+        cartItemService: new CartItemService(),
+        orderService: new OrderService()
     };
 
     return services;

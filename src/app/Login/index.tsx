@@ -15,8 +15,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/consts";
 import { useAuthentication } from "../../hooks";
 import { ILogin } from "../../models";
-import { useDispatch } from "react-redux";
-import { login } from "../../features/userLogined/loginSlice";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Alert } from "@mui/material";
@@ -38,7 +36,6 @@ const validationSchema = yup.object({
 export const Login: React.FC = () => {
   const { mutateLoginApp, result } = useAuthentication();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [loginInput, setLoginInput] = React.useState<ILogin>({
     email: "",
     password: "",
@@ -53,7 +50,6 @@ export const Login: React.FC = () => {
     onSubmit: () => {
       mutateLoginApp(loginInput)
         .then(() => {
-          dispatch(login());
           navigate(ROUTES.HOME, {state:result});
         })
         .catch(() => console.log("xeta bash verdi"));
