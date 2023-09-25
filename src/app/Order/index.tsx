@@ -7,11 +7,15 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./style.scss";
 import { ICartProduct } from "../../models";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { useService } from "../../APIs/Services";
+import { useMutation, useQueryClient } from "react-query";
+import { ROUTES } from "../../routes/consts";
+import { EQueryKeys } from "../../enums";
 
 const validationSchema = yup.object({
   fullName: yup.string().required("Enter your first and last name!"),
@@ -28,24 +32,59 @@ const validationSchema = yup.object({
 
 export const OrderPage = () => {
   const { state } = useLocation();
+  const { orderService, cartItemService } = useService();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+
+  const { mutateAsync: mutateRemoveAllItems } = useMutation(
+    () => cartItemService.removeCartItems(),{
+      onSuccess:()=>{
+        queryClient.invalidateQueries([EQueryKeys.GET_CART_ITEMS]);
+      }
+    }
+  );
 
   const [activePage, setActivePage] = React.useState<number>(1);
   const startIndex = (activePage - 1) * 6;
   const slicedOrders = state?.orderedProducts.slice(startIndex, startIndex + 6);
 
-
+  const { mutateAsync: mutateOrder } = useMutation(
+    (reqBody: any) => orderService.createOrder(reqBody),
+    {
+      onError: () => console.log("error"),
+      onSuccess:()=>{
+        mutateRemoveAllItems()
+        navigate(ROUTES.SHOPPING_CART)
+      }
+    }
+  );
 
   const formik = useFormik({
-    initialValues:{
-      email:"",
+    initialValues: {
+      email: "",
       fullName: "",
       address: "",
       phone: "+994",
-      orderNotes:""
+      orderNotes: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log("object");
+      const orderItems = state?.orderedProducts.map(
+        (product: ICartProduct) => ({
+          productId: product.id,
+          count: product.count,
+        })
+      );
+      const requestBody = {
+        email: values.email,
+        fullName: values.fullName,
+        address: values.address,
+        phone: values.phone,
+        note: values.orderNotes,
+        orderItems: orderItems,
+      };
+      mutateOrder(requestBody);
     },
   });
 
@@ -54,7 +93,7 @@ export const OrderPage = () => {
       <form className="user-data" onSubmit={formik.handleSubmit}>
         <TextField
           className="full-width"
-          label="Full Name"
+          label="Full Name*"
           type="text"
           variant="outlined"
           name="fullName"
@@ -65,34 +104,34 @@ export const OrderPage = () => {
           helperText={formik.touched.fullName && formik.errors.fullName}
         />
         <Box className="flex-wrap">
-        <TextField
-          className="half-width"
-          label="Email"
-          type="email"
-          variant="outlined"
-          name="email"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-        />
-        <TextField
-          className="half-width"
-          label="Phone Number"
-          type="text"
-          variant="outlined"
-          name="phone"
-          value={formik.values.phone}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched.phone && Boolean(formik.errors.phone)}
-          helperText={formik.touched.phone && formik.errors.phone}
-        />
+          <TextField
+            className="half-width"
+            label="Email*"
+            type="email"
+            variant="outlined"
+            name="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+          />
+          <TextField
+            className="half-width"
+            label="Phone Number*"
+            type="text"
+            variant="outlined"
+            name="phone"
+            value={formik.values.phone}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.phone && Boolean(formik.errors.phone)}
+            helperText={formik.touched.phone && formik.errors.phone}
+          />
         </Box>
         <TextField
           className="full-width"
-          label="Adress"
+          label="Adress*"
           type="text"
           variant="outlined"
           name="address"
@@ -105,13 +144,19 @@ export const OrderPage = () => {
         <TextField
           className="full-width"
           id="outlined-multiline-static"
-          label="Order notes"
+          label="Note"
           multiline
           rows={6}
           name="orderNotes"
           value={formik.values.orderNotes}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.orderNotes && Boolean(formik.errors.orderNotes)}
+          helperText={formik.touched.orderNotes && formik.errors.orderNotes}
         />
-        <Button className="place-order-btn">Place Order</Button>
+        <Button className="place-order-btn" type="submit">
+          Place Order
+        </Button>
       </form>
       <Box className="order-data">
         <Box className="top">
@@ -128,7 +173,11 @@ export const OrderPage = () => {
                     <Typography>x{order.count}</Typography>
                   </Box>
 
-                  <Typography>{order.salePrice}$</Typography>
+                  <Typography>
+                    {order.salePrice -
+                      (order.salePrice * order.discountPercent) / 100}
+                    $
+                  </Typography>
                 </Box>
                 <Divider />
               </div>

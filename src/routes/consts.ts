@@ -15,5 +15,6 @@ export const ROUTES = {
     UPDATE_PASSWORD:"/update-password"
   },
   SHOPPING_CART:"/shopping-cart",
-  ORDER:"/confirm-order"
+  ORDER:"/confirm-order",
+  CONFIRM_EMAIL:"/confirm-email"
 };

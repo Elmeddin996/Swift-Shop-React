@@ -50,7 +50,7 @@ export const ShoppingCartProvider: React.FC<any> = ({ children }: any) => {
   );
 
   const [localCart, setLocalCart] = useLocalStorageState<
-    { productId: string; count: number }[]
+    { productId: number; count: number }[]
   >("cart", {
     defaultValue: [],
   });
@@ -66,7 +66,7 @@ export const ShoppingCartProvider: React.FC<any> = ({ children }: any) => {
 
   return (
     <ShoppingCartContext.Provider
-      value={{ mainCart, mutateCartItem, localCart, setLocalCart, mutateRemoveItem, mutateReduceCartItem }}
+      value={{ mainCart, mutateCartItem, localCart, setLocalCart, mutateRemoveItem, mutateReduceCartItem}}
     >
       {children}
     </ShoppingCartContext.Provider>

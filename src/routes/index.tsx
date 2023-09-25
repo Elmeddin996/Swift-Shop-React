@@ -20,6 +20,7 @@ import { OrderPage } from "../app/Order";
 import { UpdatePassword } from "../app/UpdatePassword";
 import { ForgotPassword } from "../app/ForgotPassword";
 import { ResetPassword } from "../app/ResetPassword";
+import { ConfirmEmail } from "../app/ConfirmEmail";
 
 const ShopPage = React.lazy(() =>
   import("../app/Shop").then(({ ShopPage }) => ({
@@ -56,7 +57,11 @@ export const AppRoutes: React.FC = () => {
               <Home />
             </ProductProvider>
           }
-        />
+          errorElement={(
+            <div style={{display:"flex", height:"100vh", justifyContent:"center",alignItems:"center"}}>
+               <h1>Something went wrong</h1>
+            </div>
+          )}        />
         <Route
           path={ROUTES.PRODUCT.LIST}
           element={
@@ -85,6 +90,11 @@ export const AppRoutes: React.FC = () => {
               </ShoppingCartProvider>
             </ProductProvider>
           }
+          // errorElement={(
+          //   <div style={{display:"flex", height:"100vh", justifyContent:"center",alignItems:"center"}}>
+          //      <h1>Something went wrong</h1>
+          //   </div>
+          // )} 
         />
 
         <Route
@@ -116,6 +126,13 @@ export const AppRoutes: React.FC = () => {
           path={ROUTES.USER.RESET_PASSWORD}
           element={
               <ResetPassword />
+          }
+        />
+
+<Route
+          path={ROUTES.CONFIRM_EMAIL}
+          element={
+              <ConfirmEmail />
           }
         />
 
