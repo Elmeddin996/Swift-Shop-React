@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { IShoppingCartItem } from "../../models";
 import Carousel from "better-react-carousel";
+import Swal from "sweetalert2";
 
 export const ProductDetail: React.FC = () => {
   const { id } = useParams();
@@ -40,7 +41,9 @@ export const ProductDetail: React.FC = () => {
       }
     } else {
       const userId = localStorage.getItem("userId");
-      mutateCartItem({ productId, userId });
+      mutateCartItem({ productId, userId }).catch(() =>
+        Swal.fire("Error!", "Something is wrong.", "error")
+      );
     }
   };
 
@@ -80,9 +83,7 @@ export const ProductDetail: React.FC = () => {
           </Typography>
           <Rating
             name="read-only"
-            value={
-              product?.data?.rating !== undefined ? product?.data.rating : 4.5
-            }
+            value={product?.data.rate ? product?.data.rate : 4.5}
             readOnly
           />
           <Typography variant="body1" className="product-category">

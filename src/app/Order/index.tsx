@@ -16,6 +16,9 @@ import { useService } from "../../APIs/Services";
 import { useMutation, useQueryClient } from "react-query";
 import { ROUTES } from "../../routes/consts";
 import { EQueryKeys } from "../../enums";
+import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 const validationSchema = yup.object({
   fullName: yup.string().required("Enter your first and last name!"),
@@ -35,13 +38,16 @@ export const OrderPage = () => {
   const { orderService, cartItemService } = useService();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.isLogined.isAuthenticated
+  );
 
   const { mutateAsync: mutateRemoveAllItems } = useMutation(
-    () => cartItemService.removeCartItems(),{
-      onSuccess:()=>{
+    () => cartItemService.removeCartItems(),
+    {
+      onSuccess: () => {
         queryClient.invalidateQueries([EQueryKeys.GET_CART_ITEMS]);
-      }
+      },
     }
   );
 
@@ -52,11 +58,9 @@ export const OrderPage = () => {
   const { mutateAsync: mutateOrder } = useMutation(
     (reqBody: any) => orderService.createOrder(reqBody),
     {
-      onError: () => console.log("error"),
-      onSuccess:()=>{
-        mutateRemoveAllItems()
-        navigate(ROUTES.SHOPPING_CART)
-      }
+      onSuccess: () => {
+        navigate(ROUTES.SHOPPING_CART);
+      },
     }
   );
 
@@ -73,6 +77,7 @@ export const OrderPage = () => {
       const orderItems = state?.orderedProducts.map(
         (product: ICartProduct) => ({
           productId: product.id,
+          productName: product.name,
           count: product.count,
         })
       );
@@ -84,7 +89,24 @@ export const OrderPage = () => {
         note: values.orderNotes,
         orderItems: orderItems,
       };
-      mutateOrder(requestBody);
+      mutateOrder(requestBody)
+        .then(() => {
+          Swal.fire({
+            position: "top-start",
+            icon: "success",
+            title: "Ordered Successfully",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        })
+        .then(() => {
+          if (isAuthenticated) {
+            mutateRemoveAllItems();
+          } else {
+            localStorage.removeItem("cart");
+          }
+        })
+        .catch(() => Swal.fire("Error!", "Something is wrong.", "error"));
     },
   });
 

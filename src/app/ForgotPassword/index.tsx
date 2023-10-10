@@ -22,10 +22,7 @@ export const ForgotPassword: React.FC = () => {
   const navigate = useNavigate();
 
   const { mutateAsync: mutateForgotPassword } = useMutation(
-    (reqBody: any) => accountService.forgotPassword(reqBody),
-    {
-      onError: () => console.log("error"),
-    }
+    (reqBody: any) => accountService.forgotPassword(reqBody)
   );
   const formik = useFormik({
     initialValues: {
@@ -35,13 +32,14 @@ export const ForgotPassword: React.FC = () => {
     onSubmit: (value) => {
       mutateForgotPassword(value)
         .then(() => navigate(ROUTES.HOME))
-        .then(handleShowAlert);
+        .then(handleShowAlert)
+        .catch(()=>Swal.fire("Error!", "Something is wrong.", "error"));
     },
   });
   const handleShowAlert = () => {
     Swal.fire({
       position: "top-start",
-      icon: "warning",
+      icon: "success",
       title: "Check Your Email",
       showConfirmButton: false,
       timer: 2000,

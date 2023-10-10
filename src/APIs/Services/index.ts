@@ -6,6 +6,7 @@ import { CategoryService } from "./Categories";
 import { OrderService } from "./Order";
 import { ProductService } from "./Products";
 import { SiteDatasService } from "./SiteDatas";
+import { SliderService } from "./Slider";
 
 export const useService =()=>{
     const services={
@@ -16,7 +17,8 @@ export const useService =()=>{
         categoriesService: new CategoryService(),
         brandsService: new BrandService(),
         cartItemService: new CartItemService(),
-        orderService: new OrderService()
+        orderService: new OrderService(),
+        sliderService: new SliderService()
     };
 
     return services;

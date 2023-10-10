@@ -1,3 +1,41 @@
-.carousel-main{
-    margin-top: 10rem;
+.carousel-main {
+    margin: 60px 0 0 5px;
+  .slider-content {
+    height: 450px;
+    position: relative;
+
+    .title{
+        background-color: rgb(0, 0, 0,0.6);
+        color: white;
+        width: 40%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .description{
+        background-color: rgb(0, 0, 0,0.6);
+        color: white;
+        position: absolute;
+        bottom: 5px;
+        right: 20px;
+        width: 400px;
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+    }
+
+    .shop-btn{
+        position: absolute;
+        bottom: 15px;
+        left: 200px;
+        background-color: rgb(0, 0, 0);
+        color: white;
+        border: 2px solid white;
+
+    }
+    .shop-btn:hover{
+        background-color: white;
+        color: black;
+        border: 2px solid black;
+    }
+  }
 }

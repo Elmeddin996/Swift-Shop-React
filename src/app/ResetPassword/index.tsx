@@ -32,10 +32,7 @@ export const ResetPassword: React.FC = () => {
 
 
   const { mutateAsync: mutateResetPassword } = useMutation(
-    (reqBody: any) => accountService.resetPasswordChange(reqBody),
-    {
-      onError: () => console.log("error")
-    }
+    (reqBody: any) => accountService.resetPasswordChange(reqBody)
   );
 
   const formik = useFormik({
@@ -54,7 +51,8 @@ export const ResetPassword: React.FC = () => {
       mutateResetPassword(requestBody)
         .then(()=>dispatch(logout()))
         .then(() => navigate(ROUTES.HOME))
-        .then(handleShowAlert);
+        .then(handleShowAlert)
+        .catch(()=>Swal.fire("Error!", "Something is wrong.", "error"));
     },
   });
 

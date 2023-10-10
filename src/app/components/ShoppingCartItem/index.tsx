@@ -5,6 +5,7 @@ import { useCartItemContext } from "../../../hooks";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import "./style.scss";
+import Swal from "sweetalert2";
 
 interface ICartItem {
   product: ICartProduct;
@@ -36,7 +37,8 @@ export const ShoppingCartItem: React.FC<ICartItem> = ({ product }) => {
       setLocalCart(updatedCarts);
     } else {
       const userId = localStorage.getItem("userId");
-      mutateReduceCartItem({productId,userId});
+      mutateReduceCartItem({productId,userId})
+      .catch(()=>Swal.fire("Error!", "Something is wrong.", "error"));
     }
   };
 
@@ -54,7 +56,9 @@ export const ShoppingCartItem: React.FC<ICartItem> = ({ product }) => {
       setLocalCart(updatedCarts);
     } else {
       const userId = localStorage.getItem("userId");
-      mutateCartItem({ productId, userId });
+      mutateCartItem({ productId, userId })
+      .catch(()=>Swal.fire("Error!", "Something is wrong.", "error"));
+
     }
   };
 
@@ -65,7 +69,9 @@ export const ShoppingCartItem: React.FC<ICartItem> = ({ product }) => {
       );
       setLocalCart(updatedCarts);
     } else {
-      mutateRemoveItem(productId);
+      mutateRemoveItem(productId)
+      .catch(()=>Swal.fire("Error!", "Something is wrong.", "error"));
+
     }
   };
 

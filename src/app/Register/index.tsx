@@ -9,6 +9,7 @@ import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { IUserData } from "../../models";
 import { useMutation } from "react-query";
 import { useService } from "../../APIs/Services";
+import Swal from "sweetalert2";
 
 const validationSchema = yup.object({
   userName: yup.string().required("User name is required!!!"),
@@ -35,7 +36,17 @@ export const Register: React.FC = () => {
   const { mutateAsync: mutateRegister } = useMutation(
     (reqBody: IUserData) => authService.register(reqBody),
     {
-      onError: () => console.log("error"),
+      onError: (error: any) => {
+        if (error.response?.status === 409) {
+          Swal.fire(
+            'User already exists!',
+            'A user with the same username or email already exists.',
+            'error'
+          );
+        } else {
+          Swal.fire("Error!", "Something is wrong.", "error")
+        }
+      },
     }
   );
 
@@ -51,8 +62,13 @@ export const Register: React.FC = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values:IUserData) => {
-      mutateRegister(values)
+      mutateRegister(values).catch(()=>Swal.fire("Error!", "Something is wrong.", "error"));
       navigate(ROUTES.USER.LOGIN)
+      Swal.fire(
+        "Check Your Email!",
+        "A confirmation link has been sent to your email address.",
+        "success"
+      );
     },
   });
 
