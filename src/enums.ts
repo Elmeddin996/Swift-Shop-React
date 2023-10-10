@@ -6,5 +6,6 @@ export enum EQueryKeys{
     GET_BRAND_LIST= "getbrandlist",
     GET_CART_ITEMS= "getcartitems",
     GET_USER_DATA="getuserdata",
+    GET_SLIDER_DATA="getsliderdata",
 }
  

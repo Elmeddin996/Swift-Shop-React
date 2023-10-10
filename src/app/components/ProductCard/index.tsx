@@ -11,16 +11,16 @@ import { IProduct, IShoppingCartItem } from "../../../models";
 import { useCartItemContext } from "../../../hooks";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import Swal from "sweetalert2";
 
 interface IProductCard {
   data: IProduct;
 }
 
 export const ProductCard: React.FC<IProductCard> = ({ data }) => {
-  const { localCart, setLocalCart, mutateCartItem } =
-    useCartItemContext();
+  const { localCart, setLocalCart, mutateCartItem } = useCartItemContext();
   const isAuthenticated = useSelector(
     (state: RootState) => state.isLogined.isAuthenticated
   );
@@ -43,45 +43,44 @@ export const ProductCard: React.FC<IProductCard> = ({ data }) => {
         setLocalCart(updatedCart);
       }
     } else {
-      const userId = localStorage.getItem("userId")
-      mutateCartItem({productId, userId});
+      const userId = localStorage.getItem("userId");
+      mutateCartItem({ productId, userId }).catch(() =>
+        Swal.fire("Error!", "Something is wrong.", "error")
+      );
     }
   };
   return (
     <Grid item lg={3.5} md={4.5} sm={8} xs={10} className={`card-container`}>
-      <Card sx={{ maxWidth: 345}} className="product-card">
+      <Card sx={{ maxWidth: 345 }} className="product-card">
         <CardActionArea onClick={goToDetail}>
           <CardContent>
-          <CardMedia
-            component="img"
-            height="140"
-            image={data?.imageUrl}
-            alt="img"
-          />
+            <CardMedia
+              component="img"
+              className="image"
+              image={data?.imageUrl}
+              alt="img"
+            />
             <Typography gutterBottom variant="h5" component="div">
-              {data.name?.length>30?data.name.slice(0,30)+"...":data.name}
-            </Typography>
-            <Typography className="card-description" variant="body2" color="text.secondary">
-            {data.description.length > 45
-            ? data.description.slice(0, 45) + "..."
-            : data.description}
+              {data.name?.length > 30
+                ? data.name.slice(0, 30) + "..."
+                : data.name}
             </Typography>
             <Typography>{data.salePrice} $</Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions sx={{display:"flex", flexDirection:"column", width:"100%"}}>
-          <Button
-            className="cart-action-btn"
-            onClick={goToDetail}
-          >
-          <InfoOutlinedIcon/>
-            Go To Detail</Button>
+        <CardActions
+          sx={{ display: "flex", flexDirection: "column", width: "100%" }}
+        >
+          <Button className="cart-action-btn" onClick={goToDetail}>
+            <InfoOutlinedIcon />
+            Go To Detail
+          </Button>
           <Button
             variant="outlined"
             className="cart-action-btn"
             onClick={() => addToCart(data.id)}
           >
-            <ShoppingBagOutlinedIcon/>
+            <ShoppingBagOutlinedIcon />
             Add To Cart
           </Button>
         </CardActions>

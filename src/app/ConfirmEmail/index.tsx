@@ -3,6 +3,7 @@ import { useMutation } from "react-query";
 import { useService } from "../../APIs/Services";
 import { useNavigate } from "react-router-dom";
 import { Loading } from "../components/Loading";
+import Swal from "sweetalert2";
 
 export const ConfirmEmail = () => {
   const { accountService } = useService();
@@ -24,13 +25,21 @@ export const ConfirmEmail = () => {
       token: tokenParam,
       email: emailParam,
     };
-    mutateConfirmEmail(reqBody);
+    mutateConfirmEmail(reqBody)
+    .catch(()=>Swal.fire("Error!", "Something is wrong.", "error"));
   }, [mutateConfirmEmail]);
 
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
       navigate('/');
+      Swal.fire({
+        position: 'top-start',
+        icon: 'success',
+        title: 'Email has been successfully verified',
+        showConfirmButton: false,
+        timer: 1500
+      })
     }, 3000); 
 
     return () => clearTimeout(timer);

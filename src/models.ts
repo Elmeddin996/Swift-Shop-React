@@ -84,3 +84,12 @@ export interface IUserData {
   phone: string;
   emailConfirm?:boolean
 }
+
+
+export interface ISlider{
+  id: number;
+  title: string;
+  desc: string;
+  imageName: string;
+  imageUrl: string;
+}

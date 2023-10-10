@@ -24,6 +24,7 @@ import { IUserData } from "../../models";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/consts";
 import Swal from "sweetalert2";
+import SendIcon from "@mui/icons-material/Send";
 
 const validationSchema = yup.object({
   userName: yup.string(),
@@ -41,62 +42,46 @@ export const UserDetail: React.FC = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [result, setResult] = React.useState<string>("");
   const queryClient = useQueryClient();
+  const [user,setUser]=React.useState<IUserData>();
 
   const { data: userData } = useQuery([EQueryKeys.GET_USER_DATA], () =>
     authService.getUserData()
+  );
+
+  const { mutateAsync: mutateSendEmail } = useMutation(() =>
+    accountService.sendConfirmEmailToken()
   );
 
   const { mutateAsync: mutateUserData } = useMutation(
     (RequestBody: IUserData) => authService.userDataUpdate(RequestBody),
     {
       onError: () => setResult(`error`),
+
       onSuccess: () => {
         queryClient.invalidateQueries([EQueryKeys.GET_USER_DATA]);
       },
     }
   );
 
-  const { mutateAsync: mutateConfirmEmail } = useMutation(
-    () => accountService.sendConfirmEmailToken()
-  );
-
-  React.useEffect(() => {
-    if (!userData?.data?.emailConfirm) {
-      Swal.fire({
-        title: "Your email has not been verified!",
-        text: "You can go ahead and confirm your email right now",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#045d91",
-        cancelButtonColor: "#f86b6b",
-        confirmButtonText: "Yes, Confirm",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          mutateConfirmEmail();
-          Swal.fire(
-            "Check Your Email!",
-            "A confirmation link has been sent to your email address.",
-            "success"
-          );
-        }
-      });
-    }
-  }, [userData?.data?.emailConfirm, mutateConfirmEmail]);
+  React.useEffect(()=>{
+    setUser(userData?.data)
+  },[userData?.data])
 
   const formik = useFormik<IUserData>({
     initialValues: {
-      userName: userData?.data?.userName || "",
-      email: userData?.data?.email || "",
-      fullName: userData?.data?.fullName || "",
-      address: userData?.data?.address || "",
-      phone: userData?.data?.phone || "",
+      userName:userData?.data?.userName ,
+      email: userData?.data?.email,
+      fullName: userData?.data?.fullName,
+      address: userData?.data?.address,
+      phone: userData?.data?.phone,
       password: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       mutateUserData(values)
         .then(() => navigate(ROUTES.HOME))
-        .then(handleShowAlert);
+        .then(handleShowAlert)
+        .catch(() => Swal.fire("Error!", "Something is wrong.", "error"));
     },
   });
   const handleShowAlert = () => {
@@ -108,6 +93,7 @@ export const UserDetail: React.FC = () => {
       timer: 1500,
     });
   };
+
   return (
     <div className="profile-container">
       <Typography variant="h4">
@@ -131,10 +117,6 @@ export const UserDetail: React.FC = () => {
           variant="outlined"
           name="userName"
           value={formik.values.userName}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched.userName && Boolean(formik.errors.userName)}
-          helperText={formik.touched.userName && formik.errors.userName}
         />
         <Box className="flex-wrap">
           <TextField
@@ -143,10 +125,6 @@ export const UserDetail: React.FC = () => {
             variant="outlined"
             name="email"
             value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
           />
           <TextField
             className="half-width"
@@ -209,10 +187,30 @@ export const UserDetail: React.FC = () => {
         <Button className="save-changes-btn" type="submit">
           Save Changes
         </Button>
+        <Button
+          variant="contained"
+          className="change-password-btn"
+          onClick={() => navigate(ROUTES.USER.UPDATE_PASSWORD)}
+        >
+          Change Password
+        </Button>
       </form>
-      <Link className="link" to={ROUTES.USER.UPDATE_PASSWORD}>
-        Change Password
-      </Link>
+      {!userData?.data.emailConfirm && (
+        <>
+          {" "}
+          <Alert severity="error">
+            Your email has not been verified! Please check and confirm your
+            email!
+          </Alert>
+          <Button
+            variant="outlined"
+            startIcon={<SendIcon />}
+            onClick={() => mutateSendEmail()}
+          >
+            Send Email Again
+          </Button>
+        </>
+      )}
     </div>
   );
 };

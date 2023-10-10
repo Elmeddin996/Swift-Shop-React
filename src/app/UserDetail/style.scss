@@ -62,16 +62,27 @@
       color: black;
       border: 1px solid black;
     }
+    .change-password-btn {
+      height: 45px;
+      width: 94%;
+      margin: 10px;
+      background-color: white;
+      color: black;
+    }
+  
+    .change-password-btn:hover {
+      background-color: black;
+      color: white;
+      border: 1px solid black;
+    }
   }
 
-  .link{
-    font-size: x-large;
-  }
-  .forgot-password-link{
+
+  .forgot-password-link {
     padding-left: 10px;
     color: purple;
   }
-  .forgot-password-link:hover{
+  .forgot-password-link:hover {
     color: black;
   }
 }

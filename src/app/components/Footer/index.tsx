@@ -11,7 +11,7 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { Typography } from "@mui/material";
 
-export const Footer = () => {
+export const Footer:React.FC = () => {
   const { siteDatasService } = useService();
   const { data: siteDatas } = useQuery([EQueryKeys.GET_SITE_DATAS], () =>
     siteDatasService.getSiteDatas()

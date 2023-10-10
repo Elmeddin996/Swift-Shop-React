@@ -45,7 +45,6 @@ export const MultiCarousel: React.FC<IMultiCarouselProps> = ({
               textAlign: "center",
               fontSize: 35,
               bgcolor:color,
-              borderRadius:"40%"
             }}
           >
             {discounted? "Discounted": products[0]?.brand.name} Products

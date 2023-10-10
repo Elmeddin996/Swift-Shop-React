@@ -18,7 +18,8 @@ import { ILogin } from "../../models";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Alert } from "@mui/material";
-import "./style.scss"
+import "./style.scss";
+import Swal from "sweetalert2";
 
 const defaultTheme = createTheme();
 
@@ -29,7 +30,7 @@ const validationSchema = yup.object({
     .required("Email is required!!!"),
   password: yup
     .string()
-    .min(6, "Password must be at least 6 characters!!!")
+    .min(8, "Password must be at least 8 characters!!!")
     .required("Password is required!!!"),
 });
 
@@ -41,6 +42,25 @@ export const Login: React.FC = () => {
     password: "",
   });
 
+  const handleShowAlert = () => {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "center-end",
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+
+    Toast.fire({
+      icon: "success",
+      title: "Signed in successfully",
+    });
+  };
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -50,21 +70,21 @@ export const Login: React.FC = () => {
     onSubmit: () => {
       mutateLoginApp(loginInput)
         .then(() => {
-          navigate(ROUTES.HOME, {state:result});
+          navigate(ROUTES.HOME);
         })
-        .catch(() => console.log("xeta bash verdi"));
+        .then(() => handleShowAlert())
+        .catch(()=>Swal.fire("Error!", "Something is wrong.", "error"));
     },
   });
 
-
   const handleLoginInput = React.useCallback(
-    ({ target: { name, value } }: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    ({
+      target: { name, value },
+    }: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setLoginInput((prev) => ({ ...prev, [name]: value }));
     },
     []
   );
-
-
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -117,14 +137,12 @@ export const Login: React.FC = () => {
                 name="email"
                 autoComplete="email"
                 autoFocus
-                onChange={(e)=>{
-                  formik.handleChange(e)
-                   handleLoginInput(e)
+                onChange={(e) => {
+                  formik.handleChange(e);
+                  handleLoginInput(e);
                 }}
                 onBlur={formik.handleBlur}
-                error={
-                  formik.touched.email && Boolean(formik.errors.email)
-                }
+                error={formik.touched.email && Boolean(formik.errors.email)}
                 helperText={formik.touched.email && formik.errors.email}
               />
               <TextField
@@ -135,25 +153,23 @@ export const Login: React.FC = () => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                onChange={(e)=>{
-                  formik.handleChange(e)
-                   handleLoginInput(e)
+                onChange={(e) => {
+                  formik.handleChange(e);
+                  handleLoginInput(e);
                 }}
                 onBlur={formik.handleBlur}
                 error={
                   formik.touched.password && Boolean(formik.errors.password)
                 }
-                helperText={formik.touched.password && formik.errors.password
-                }
+                helperText={formik.touched.password && formik.errors.password}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
-                {
-                  result&&
-                  <Alert severity="error">Email or Password is incorrect</Alert>
-                }
+              {result && (
+                <Alert severity="error">Email or Password is incorrect</Alert>
+              )}
               <Button
                 type="submit"
                 fullWidth
@@ -164,10 +180,18 @@ export const Login: React.FC = () => {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link className="forgot-password-link" to={ROUTES.USER.FORGOT_PASSWORD}>Forgot password?</Link>
+                  <Link
+                    className="forgot-password-link"
+                    to={ROUTES.USER.FORGOT_PASSWORD}
+                  >
+                    Forgot password?
+                  </Link>
                 </Grid>
                 <Grid item>
-                  <Link className="forgot-password-link" to={ROUTES.USER.REGISTER}>
+                  <Link
+                    className="forgot-password-link"
+                    to={ROUTES.USER.REGISTER}
+                  >
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

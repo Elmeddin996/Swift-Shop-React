@@ -31,7 +31,6 @@ export const UpdatePassword = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-
   const formik = useFormik({
     initialValues: {
       password: "",
@@ -41,17 +40,18 @@ export const UpdatePassword = () => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       mutatePassword(values)
-      .then(()=>dispatch(logout()))
-      .then(() => navigate(ROUTES.HOME))
-      .then(handleShowAlert);
+        .then(() => dispatch(logout()))
+        .then(() => navigate(ROUTES.HOME))
+        .then(handleShowAlert)
+        .catch(() => Swal.fire("Error!", "Something is wrong.", "error"));
     },
   });
 
   const handleShowAlert = () => {
     Swal.fire({
-      position: 'top-start',
-      icon: 'success',
-      title: 'Password Changed Successfully',
+      position: "top-start",
+      icon: "success",
+      title: "Password Changed Successfully",
       showConfirmButton: false,
       timer: 1500,
     });

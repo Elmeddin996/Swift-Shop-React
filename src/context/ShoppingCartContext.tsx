@@ -6,6 +6,7 @@ import useLocalStorageState from "use-local-storage-state";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 import { setCount } from "../features/shoppingCartCount/shoppingCartSlice";
+import Swal from "sweetalert2";
 
 export const ShoppingCartContext = React.createContext(null as any);
 
@@ -27,6 +28,16 @@ export const ShoppingCartProvider: React.FC<any> = ({ children }: any) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries([EQueryKeys.GET_CART_ITEMS]);
+      },
+      onError: (error: any) => {
+        if (error.response?.status === 404) {
+          Swal.fire(
+            'Not Found!',
+            'error'
+          );
+        } else {
+          Swal.fire("Error!", "Something is wrong.", "error")
+        }
       },
     }
   );

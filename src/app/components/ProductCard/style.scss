@@ -1,5 +1,5 @@
 .card-container {
-  height: 410px;
+  height: 440px;
   margin: 0 auto;
   width: 20%;
   margin: 10px 10px;
@@ -14,13 +14,12 @@
     background-color: #fff;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
   
-    .card-description{
-      @media (max-width: 400px) {
-        display: none;
-      }
+    .image{
+      object-fit: contain;
+      width: 80%;
     }
 
     .cart-action-btn{

@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import { IProduct } from "../../../models";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../routes/consts";
+import "./style.scss";
 
 interface MultiCarouselCardProps {
   product: IProduct;
@@ -31,7 +32,7 @@ export const MultiCarouselCard: React.FC<MultiCarouselCardProps> = ({
         marginLeft: 2,
         marginBottom:5,
         marginTop:3,
-        maxHeight: 360,
+        maxHeight: 460,
         minHeight: 360,
         justifyContent: "space-between",
       }}
@@ -39,7 +40,7 @@ export const MultiCarouselCard: React.FC<MultiCarouselCardProps> = ({
       <CardMedia
         component="img"
         alt="img"
-        height="190"
+        className="multi-image"
         image={product.imageUrl.toString()}
       />
       <CardContent>
@@ -48,11 +49,7 @@ export const MultiCarouselCard: React.FC<MultiCarouselCardProps> = ({
             ? product.name.slice(0, 16)
             : product.name}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {product.description.length > 45
-            ? product.description.slice(0, 45) + "..."
-            : product.description}
-        </Typography>
+      
       </CardContent>
       <CardActions>
         <Button onClick={goToDetail} size="large"  variant="contained" sx={{width:"100%", bgcolor:color,color:"black", ":hover":{bgcolor:"black",color:"white"}}}>

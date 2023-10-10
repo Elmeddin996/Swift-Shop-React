@@ -10,15 +10,24 @@ export const LogoutIcon = () => {
   const { authService } = useService();
   const dispatch = useDispatch();
 
-  const { mutateAsync: mutateLogout } = useMutation(() =>
-  authService.logout(),
-  {
-    onSuccess:()=>{dispatch(logout())}
-  }
+  const { mutateAsync: mutateLogout } = useMutation(
+    () => authService.logout(),
+    {
+      onSuccess: () => {
+        dispatch(logout());
+      },
+    }
   );
 
+  const handleLogout = () => {
+    mutateLogout().catch(() => {
+      localStorage.removeItem("token")
+      dispatch(logout());
+    });
+  };
+
   return (
-    <Button onClick={()=>mutateLogout()} color="inherit" sx={{ marginLeft: "10px" }}>
+    <Button onClick={handleLogout} color="inherit" sx={{ marginLeft: "10px" }}>
       <LogoutIconn fontSize="large" />
       Logout
     </Button>

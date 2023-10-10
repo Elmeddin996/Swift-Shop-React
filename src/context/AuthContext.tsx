@@ -35,11 +35,9 @@ export const AuthProvider: React.FC<any> = ({ children }: any) => {
   );
 
   const { mutateAsync: mutatePassword } = useMutation(
-    (reqBody: any) => authService.updatePassword(reqBody),
-    {
-      onError: () => console.log("error"),
-    }
+    (reqBody: any) => authService.updatePassword(reqBody)
   );
+  
   return (
     <AuthContext.Provider value={{ mutateLoginApp, result, mutatePassword }}>
       {children}
