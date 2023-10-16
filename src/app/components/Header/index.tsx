@@ -17,7 +17,6 @@ import "./style.scss";
 import { useService } from "../../../APIs/Services";
 import { useQuery } from "react-query";
 import { EQueryKeys } from "../../../enums";
-import Font, { Text } from "react-font";
 import { ProfileIcon } from "../ProfileIcon";
 import { LogoutIcon } from "../LogoutIcon";
 import { RootState } from "../../../store";
@@ -127,11 +126,9 @@ export const Header: React.FC = () => {
                 src={siteDatas?.data.logoImageLink}
                 alt="logo"
               />
-              <Font family="Cormorant">
-                <Text family="Cormorant" style={{ fontSize: 25 }}>
+               <h1 style={{ fontSize: 25 }}>
                   {siteDatas?.data.logoText}
-                </Text>
-              </Font>
+                </h1>
             </Grid>
             <Grid item sm={3} xs={3}>
               <Link to={ROUTES.SHOPPING_CART} className="shopping-cart-icon">
@@ -158,11 +155,9 @@ export const Header: React.FC = () => {
                 src={siteDatas?.data.logoImageLink}
                 alt=""
               />
-              <Font family="Cormorant">
-                <Text family="Cormorant" style={{ fontSize: 20 }}>
+                <h1 style={{ fontSize: 20 }}>
                   {siteDatas?.data.logoText}
-                </Text>
-              </Font>
+                </h1>
             </Grid>
             <Grid item xs={5.5} sm={6.4}>
               <Tabs

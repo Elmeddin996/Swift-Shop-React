@@ -25,7 +25,6 @@
     "nodemon": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-font": "^1.2.1",
     "react-loader-spinner": "^5.3.4",
     "react-material-ui-carousel": "^3.4.2",
     "react-multi-carousel": "^2.8.4",

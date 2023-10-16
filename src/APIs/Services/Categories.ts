@@ -2,7 +2,7 @@ import { HttpClient } from "../HTTPClients";
 
 export class CategoryService extends HttpClient {
   constructor() {
-    super(`https://localhost:7267/api`);
+    super(`http://elmeddin96-001-site1.htempurl.com/api`);
   }
 
   async getCategoryList(){

@@ -2,7 +2,7 @@ import { HttpClient } from "../HTTPClients";
 
 export class AccountService extends HttpClient {
   constructor() {
-    super(`https://localhost:7267/api/Accounts`);
+    super(`http://elmeddin96-001-site1.htempurl.com/api/Accounts`);
   }
 
   async forgotPassword(body:any){
