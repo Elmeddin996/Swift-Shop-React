@@ -3,7 +3,7 @@ import { HttpClient } from "../HTTPClients";
 
 export class AuthService extends HttpClient {
   constructor() {
-    super(`https://localhost:7267/api/Auth`);
+    super(`http://elmeddin96-001-site1.htempurl.com/api/Auth`);
   }
 
   
